@@ -1,0 +1,217 @@
+html body.aside-sticky:not(.aside-compact) #header, body.aside-sticky:not(.aside-compact) #js_header_spacer, body.aside-sticky:not(.aside-compact) #wrapper_content {margin-left:0;}
+html body:not(.aside-compact).layout-admin #footer {padding-left: 0;}
+
+.page-title .mb-0 {font-size: 26px; font-weight: bold;}
+
+.pl-3, .px-3 {
+	padding-left: 2rem !important;
+}
+
+#middle ul.nav {
+	border-bottom: 1px solid #ddd;
+}
+
+#middle ul.nav li a {
+	color: #222;
+}
+
+#middle ul.nav li {
+    width: 90px;
+	text-align: center;
+	color: #222;
+	font-size: 14px;
+	display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px 5px 0 0;
+}
+
+#middle ul.nav li a:hover {
+	text-decoration: none;
+}
+
+#middle ul.nav li.current {
+	background-color: #600080; 
+	color: #fff;
+}
+
+#middle ul.nav li.current a {
+	color: #fff;
+}
+
+.joy-table-title {    
+    height: 36px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #333;
+    margin: 30px 0 10px 10px;
+}
+
+.joy-table-title p {display:inline-block; font-size:14px; margin-left:15px; font-weight: normal;}
+.joy-table {border-top:2px solid #600080; width:100%;}
+.joy-table thead {}
+.joy-table thead tr {border-bottom:1px solid #600080;}
+.joy-table thead th {padding:20px 0; text-align:center; font-size:14px; font-weight:normal;}
+.joy-table tbody tr {border-bottom:1px solid #eee; cursor: pointer;}
+.joy-table tbody:last-child {border-bottom:1px solid #600080;}
+.joy-table tbody td {padding:20px 0; text-align:center; font-size:14px;}
+
+.joy-table .joy-title-text-left {
+	padding:20px; 
+	font-size:14px;
+	text-align: left;
+}
+
+.joy-paging {
+	padding: 0;
+	list-style: none;
+	text-align: center;
+	margin-top: 20px;
+}
+
+.joy-paging li {
+    display: inline-block;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    border-left: none;
+    margin: -2px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    float: left;
+}
+
+.joy-paging li:first-child {
+    border-radius: 5px 0 0 5px;
+    border-left: 1px solid #ddd;
+}
+.joy-paging li:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+.joy-paging li a {
+	font-size: 14px;
+	color: #600080;
+    padding: 0 15px;
+    text-decoration: none;
+}
+
+.tab-content a.insert {
+    float: right;
+    background-color: #600080;
+    color:#fff;
+    display: inline-block;
+    padding: 0 14px;
+    margin-bottom:10px;
+    font-size:14px;
+    font-weight: normal;
+}
+
+.joy-paging li.active {
+    color: #fff;
+    background-color: #600080;
+    padding: 0 15px;
+}
+
+.joy-paging li p.disabled {
+    font-size: 14px;
+    color: #ddd;
+    padding: 0 15px;
+    margin: 0;
+}
+
+/* 부트스트랩 css 제거 */
+html {font-size: initial;}
+
+/* core.css 제거 */
+.nav>li>a { padding:0; }
+body.layout-admin #footer a { color: #121212; }
+#header .navbar { margin-bottom: 0; }
+
+/* page-detail.html */
+
+div.joy-board-detail {
+    color: #333;
+    font-size: 14px;
+}
+
+.joy-board-detail .joy-table-detail {
+    width: 100%;
+    border-top: 2px solid #600080;
+}
+
+.joy-table-detail tr {
+    border-bottom: 1px solid #eee;
+}
+.joy-table-detail th {
+    background-color: #eee;
+    padding: 20px;
+    width: 15%;
+    text-align: center;
+}
+.joy-table-detail td {
+    padding: 20px;
+    width: 20%;
+}
+
+.detail-contents {
+    width: 100%;
+    border-bottom: 2px solid #600080;
+}
+
+.detail-contents p.contents {
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+.prev-next-list {
+    margin-right: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+}
+
+.prev-next-list a {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #600080;
+    color: #fff;
+    margin: 10px 0;
+    border: 1px solid #600080;
+}
+
+.prev-next-list p.disabled {
+	display: inline-block;
+	padding: 5px 10px;
+    color: #795b8f;
+	border: 1px solid #795b8f;
+	margin: 10px 0;
+}
+
+.list {
+    float: right;
+}
+
+.prev-next-list a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* insert form css */
+
+
+#memq-insert {border-top: 2px solid #600080; font-size: 14px; }
+#memq-insert form>div {margin:15px 0;}
+#memq-insert form>div p {display: inline-block; width:20%; color:#4c4c4c; font-weight: bold;}
+#memq-insert form>div div {display: inline-block;} 
+#memq-insert form>div select {height: 30px; border:1px solid #ddd; font-size:14px; -webkit-appearance: auto; -moz-appearance: auto; appearance: auto;}
+#memq-insert form>div input {height: 30px; border:1px solid #ddd;}
+#memq-insert form>div input[type="button"] {background-color: #600080; color:#fff; font-weight: normal; font-size:14px; vertical-align: top;}
+
+#memq-insert form .memq-image input[type="file"] {height: auto; border:none; font-size: 14px;}
+#memq-insert form .memq-contents {overflow:hidden;}
+#memq-insert form .memq-contents p {width:20%; display:inline-block; float:left;}
+#memq-insert form .memq-contents div {width: 80%; display: inline-block; float:left; font-size:14px;}
+#memq-insert form .memq-contents textarea {width:80%; resize: none; float:right;margin-top:20px;}
+#memq-insert form .memq-submit input {background-color: #600080; color:#fff; font-size:14px; height:46px; display: inline-block; padding:0 20px;}
+#memq-insert form .memq-submit a {background-color: #600080; color:#fff; font-size:14px; height:40px; display: inline-block; line-height:40px; padding:0 20px;}

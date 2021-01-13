@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	
+	<settings>
+  		<setting name="cacheEnabled" value="false"/>
+  		<setting name="jdbcTypeForNull" value="NULL" />
+  		<setting value="VARCHAR" name="jdbcTypeForNull"/>
+  	</settings>
+   
+ 	<!-- <typeAliases>
+   <typeAlias type="com.bookshop01.goods.vo.GoodsVO" alias="goodsVO" />
+    <typeAlias type="com.bookshop01.goods.vo.ImageFileVO" alias="imageFileVO" />
+    <typeAlias type="com.bookshop01.member.vo.MemberVO" alias="memberVO" />
+    <typeAlias type="com.bookshop01.cart.vo.CartVO" alias="cartVO" />
+    <typeAlias type="com.bookshop01.order.vo.OrderVO" alias="orderVO" />
+    <typeAlias type="com.bookshop01.mypage.vo.MyPageVO" alias="mypageVO" /> 
+  </typeAliases> -->
+  
+  <typeAliases>
+  	<typeAlias type="com.project.shop.member.MemberVO" alias = "memberVO"/>
+  	<typeAlias type="com.project.shop.product.ProductVO" alias = "productVO"/>
+  	<typeAlias type="com.project.shop.board.BoardVO" alias="boardVO" />
+  	<typeAlias type="com.project.shop.product.board.ProductBoardQnaVO" alias="product_qnaVO"/>
+  	<typeAlias type="com.project.shop.product.board.ReviewVO" alias="reviewVO"/>
+    <typeAlias type="com.project.shop.cart.CartVO" alias="cartVO"/>
+  	<typeAlias type="com.project.shop.orders.OrderVO" alias="orderVO"/>
+  	<typeAlias type="com.project.shop.myaccount.MyAccountShippingVO" alias ="myAccountShippingVO"/>
+
+  </typeAliases>
+  
+ 
+</configuration>
+
+
+

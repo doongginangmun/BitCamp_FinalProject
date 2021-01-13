@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<!-- 쇼핑몰 기본 레이아웃 설정 -->
+	<definition name="baseLayout"	
+		template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="title" value="쩝쩝박사 :: 너도 할 수 있어, 쩝쩝박사" />
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
+	</definition>
+	
+	<!-- 쇼핑몰 메인 페이지 레이아웃 설정 -->
+	<definition name="/main/main" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/main/main.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+	
+	<!-- 쇼핑몰 검색 페이지 레이아웃 설정 -->
+	<definition name="/main/searchResult" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/main/searchResult.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+	
+	<!-- 쇼핑몰 신상품 페이지 레이아웃 설정 -->
+	<definition name="/main/newProduct" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/main/newProductList.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+	
+	<!-- 쇼핑몰 신상품 페이지 레이아웃 설정 -->
+	<definition name="/main/bestProduct" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/main/bestProductList.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+	
+	<!-- 쇼핑몰 신상품 페이지 레이아웃 설정 -->
+	<definition name="/main/discountProduct" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/main/discountProductList.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+	
+</tiles-definitions>
+
+

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mappers.product">
+
+	<resultMap id="productResult" type="productVO">
+		<result property="product_id" column="product_id" />  
+		<result property="product_name" column="product_name" />
+		<result property="product_detail" column="product_detail" />
+		<result property="sales_unit" column="sales_unit" />
+		<result property="product_size" column="product_size" />
+		<result property="packing_type" column="packing_type" />
+		<result property="product_image" column="product_image" />
+		<result property="supplier" column="supplier" />
+		<result property="product_detail_image" column="product-detail_image"/>
+		
+		<result property="product_category_num" column="product_category_num" />
+		<result property="product_category_name" column="product_category_name" />
+		
+		<result property="option_name" column="option_name" />
+		<result property="option_price" column="option_price" />
+		<result property="option_quantity" column="option_quantity" />
+		
+		<result property="item_num" column="item_num" />
+		<result property="price" column="price" />
+		<result property="stock" column="stock" />
+		<result property="sales" column="sales" />
+		<result property="discount" column="discount" />
+		<result property="reg_date" column="reg_date" />
+		<result property="unit_price" column="unit_price" />
+		
+		
+	</resultMap>	
+	
+	
+	<!-- 아진 -->
+	<select id="selectGoodsList" parameterType="java.util.HashMap" resultMap="productResult"   >
+        <![CDATA[
+        	SELECT *
+        	FROM ( SELECT ROWNUM R_NUM, C.*
+        			FROM (select p.*, i.price, i.discount, i.reg_date 
+        					from product p, item i
+          ]]>
+        	where p.product_id=i.product_id 
+        	and product_Category_Num=#{product_category_num}
+            <choose>
+            	<when test="listKey == 'reg_date'" >
+            		order by reg_date desc )C )
+            	</when>
+            	<when test="listKey == 'price' and orderKey == 'desc' " >
+            		order by price desc ) C )
+            	</when>
+            	<when test="listKey == 'price' and orderKey == 'asc'" >
+            		order by price asc ) C )
+            	</when>
+	  		</choose>
+	  		WHERE R_NUM BETWEEN #{begin} and #{end}
+	</select>
+	
+	<select id="selectProductCategoryName" parameterType= "int" resultType ="String">
+		<![CDATA[
+			SELECT product_category_name FROM PRODUCT_CATEGORY 
+			WHERE product_category_num = #{product_category_num} 
+		]]>
+	</select>
+	
+	<select id="totalCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM PRODUCT
+		WHERE PRODUCT_CATEGORY_NUM = #{product_category_num}	
+	</select>
+	
+	<select id="selectProductDetail" resultType="productVO"   parameterType="String"  >
+	    <![CDATA[
+		    select p.*, i.item_num, i.price, i.discount , c.product_category_name
+ 			from product p, item i, product_category c
+	        where p.product_id = i.product_id 
+	         and p.product_category_num = c.product_category_num
+        	and p.product_id= #{product_id}
+    	]]>
+	</select>
+	
+	<select id="selectOption" resultMap = "productResult" parameterType="String">
+		<![CDATA[
+			SELECT * FROM product_option
+			WHERE PRODUCT_ID=#{product_id}
+		]]>
+	</select>
+	
+	
+	<!-- 상연 -->
+	<select id="bestList" resultType="productVO">
+		select * from product p , item i where p.product_id=i.product_id order by i.sales desc
+	</select>
+	
+	<select id="newList" resultType="productVO">
+		select * from product p , item i where p.product_id=i.product_id order by i.reg_date desc
+	</select>
+	
+	<select id="discountList" resultType="productVO">
+		select * from product p , item i where p.product_id=i.product_id order by i.discount desc
+	</select>
+	
+	<insert id="insertProduct" parameterType="productVO">
+		<![CDATA[
+			insert into product (product_id,product_name,product_detail,sales_unit,product_size,packing_type,product_image,supplier,product_category_num,product_detail_image)
+			values(#{product_id},#{product_name},#{product_detail},#{sales_unit},#{product_size},#{packing_type},#{product_image},#{supplier},#{product_category_num},#{product_detail_image})
+		]]>
+	</insert>
+	
+	<insert id="insertProductCategory" parameterType="productVO">
+		<![CDATA[
+			insert into product_category (product_category_num,product_category_name)
+			values(#{product_category_num},#{product_category_name})
+		]]>
+	</insert>
+	
+	<insert id="insertProductOption" parameterType="productVO">
+		<![CDATA[
+			insert into product_option (option_name,option_price,option_quantity,product_id)
+			values(#{option_name},#{option_price},#{option_quantity},#{product_id})
+		]]>
+	</insert>
+	
+	<insert id="insertItem" parameterType="productVO">
+		<![CDATA[
+			insert into item (item_num,price,stock,sales,discount,reg_date,unit_price,product_id)
+			values(#{item_num},#{price},#{stock},#{sales},#{discount},#{reg_date},#{unit_price},#{product_id})
+		]]>
+	</insert>
+	
+	<select id="allList" resultType="productVO">
+		select *
+		from product p
+		left outer join item i on i.product_id = p.product_id
+		left outer join product_category c on c.product_category_num = p.product_category_num
+		order by i.reg_date
+	</select>
+	
+	<delete id="deleteProductOption" parameterType="String">
+		delete from product_option where product_id=#{product_id}
+	</delete>
+	
+	<delete id="deleteItem" parameterType="String">
+		delete from item where product_id=#{product_id}
+	</delete>
+	
+	<delete id="deleteProduct" parameterType="String">
+		delete from product where product_id=#{product_id}
+	</delete>
+	
+	<delete id="deleteProductOptionName" parameterType="String">
+		delete from product_option where option_name=#{option_name}
+	</delete>
+	
+	<select id="loadOne" parameterType="String" resultType="productVO">
+		select p.product_id,p.product_name,p.product_detail,p.sales_unit,p.product_size,p.packing_type,p.supplier,
+		i.item_num,i.price,i.stock,i.sales,i.discount,i.reg_date,i.unit_price,c.product_category_num
+		from product p
+		left outer join item i on i.product_id = p.product_id
+		left outer join product_category c on c.product_category_num = p.product_category_num
+		where p.product_id=#{product_id}
+	</select>
+	
+	<update id="updateItem" parameterType="productVO">
+		update item
+		set price=#{price},
+		stock=#{stock},
+		sales=#{sales},
+		discount=#{discount},
+		reg_date=#{reg_date},
+		unit_price=#{unit_price} 
+		
+		where product_id=#{product_id}
+	</update>
+	
+	<update id="updateProduct" parameterType="productVO">
+		update product
+		set product_name=#{product_name},
+		product_detail=#{product_detail},
+		sales_unit=#{sales_unit},
+		product_size=#{product_size},
+		packing_type=#{packing_type},
+		product_image=#{product_image},
+		supplier=#{supplier},
+		product_category_num=#{product_category_num},
+		product_detail_image=#{product_detail_image}
+		
+		where product_id=#{product_id}
+	</update>
+	
+	<select id="loadOption" parameterType="productVO" resultType="productVO">
+		select * from product_option where product_id=#{product_id}
+	</select>
+	
+	<select id="checkProduct" parameterType="String" resultType="String">
+		select decode(count(*),1, 'true', 0, 'false') 
+		from product 
+		where product_id = #{product_id}
+	</select>
+	
+	<select id="checkItem" parameterType="String" resultType="String">
+		select decode(count(*),1, 'true', 0, 'false') 
+		from item 
+		where item_num = #{item_num}
+	</select>
+	
+	<select id="totalList" resultType="int">
+		select count(*)
+		from product p
+		left outer join item i on i.product_id = p.product_id
+		left outer join product_category c on c.product_category_num = p.product_category_num
+	</select>
+	
+	<select id="listProduct" parameterType="java.util.HashMap" resultMap="productResult"   >
+        select * 
+		from (select rownum r_num,c.* 
+		from (select p.*,i.item_num,i.price,i.stock,i.sales,i.discount,i.reg_date,i.unit_price 
+			from product p , item i 
+			where p.product_id = i.product_id order by i.reg_date desc)
+		c)
+		where r_num between #{begin} and #{end}
+ 	</select>
+ 	
+ 	<select id="searchProductName" parameterType="java.util.HashMap" resultMap="productResult"   >
+        select * 
+		from (select rownum r_num,c.* 
+		from (select p.*,i.item_num,i.price,i.stock,i.sales,i.discount,i.reg_date,i.unit_price 
+			from product p , item i 
+			where (p.product_id = i.product_id) and (product_name like '%'||#{word}||'%') )
+		c)
+		where r_num between #{begin} and #{end}
+ 	</select>
+ 	
+ 	<select id="searchProductId" parameterType="java.util.HashMap" resultMap="productResult"   >
+        select * 
+		from (select rownum r_num,c.* 
+		from (select p.*,i.item_num,i.price,i.stock,i.sales,i.discount,i.reg_date,i.unit_price 
+			from product p , item i 
+			where (p.product_id = i.product_id) and (p.product_id like '%'||#{word}||'%') )
+		c)
+		where r_num between #{begin} and #{end}
+ 	</select>
+ 	
+ 	<select id="searchItemNum" parameterType="java.util.HashMap" resultMap="productResult"   >
+        select * 
+		from (select rownum r_num,c.* 
+		from (select p.*,i.item_num,i.price,i.stock,i.sales,i.discount,i.reg_date,i.unit_price 
+			from product p , item i 
+			where (p.product_id = i.product_id) and (item_num like '%'||#{word}||'%') )
+		c)
+		where r_num between #{begin} and #{end}
+ 	</select>
+ 	
+	<select id="searchCountProductName" parameterType="String" resultType="int">
+		select count(*)
+		from product p,item i
+		where (p.product_id = i.product_id) and (product_name like '%'||#{word}||'%')
+	</select>
+	
+	<select id="searchCountProductId" parameterType="String" resultType="int">
+		select count(*)
+		from product p,item i
+		where (p.product_id = i.product_id) and (p.product_id like '%'||#{word}||'%')
+	</select>
+	
+	<select id="searchCountItemNum" parameterType="String" resultType="int">
+		select count(*)
+		from product p,item i
+		where (p.product_id = i.product_id) and (item_num like '%'||#{word}||'%')
+	</select>
+
+	
+</mapper>

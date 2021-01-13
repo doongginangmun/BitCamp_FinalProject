@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<!-- 쇼핑몰 기본 레이아웃 설정 -->
+	<definition name="baseLayout"	
+		template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="title" value="쩝쩝박사 :: 너도 할 수 있어, 쩝쩝박사" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/common/header.jsp" />
+	</definition>
+	
+	<definition name="/orders/checkout" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/orders/checkout.jsp" />
+	</definition>
+	
+	<definition name="/orders/checkout-logged" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/orders/checkout-logged.jsp" />
+	</definition>
+	
+		<definition name="/orders/paySuccess" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/orders/paySuccess.jsp" />
+	</definition>
+	
+
+	
+
+  
+</tiles-definitions>
+
+

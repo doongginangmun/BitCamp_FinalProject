@@ -1,0 +1,874 @@
+--------------------------------------------------------
+--  DDL for Table CART
+--------------------------------------------------------
+
+  CREATE TABLE "CART" 
+   (	"MEMBER_ID" VARCHAR2(100 BYTE), 
+	"QUANTITY" NUMBER, 
+	"CART_ID" NUMBER(10,0) DEFAULT 1, 
+	"OPTION_NAME" VARCHAR2(100 BYTE), 
+	"PRODUCT_NAME" VARCHAR2(100 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "CART"."MEMBER_ID" IS '회원 아이디';
+   COMMENT ON COLUMN "CART"."QUANTITY" IS '수량';
+   COMMENT ON COLUMN "CART"."OPTION_NAME" IS '옵션 이름';
+   COMMENT ON TABLE "CART"  IS '장바구니';
+--------------------------------------------------------
+--  DDL for Table FAQ
+--------------------------------------------------------
+
+  CREATE TABLE "FAQ" 
+   (	"FAQ_NUM" NUMBER, 
+	"QNA_CATEGORY_NUM" NUMBER, 
+	"TITLE" VARCHAR2(200 BYTE), 
+	"CONTENTS" VARCHAR2(4000 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "FAQ"."FAQ_NUM" IS 'FAQ 번호';
+   COMMENT ON COLUMN "FAQ"."QNA_CATEGORY_NUM" IS '질문 카테고리 번호';
+   COMMENT ON COLUMN "FAQ"."TITLE" IS '제목';
+   COMMENT ON COLUMN "FAQ"."CONTENTS" IS '내용';
+   COMMENT ON TABLE "FAQ"  IS '자주하는 질문';
+--------------------------------------------------------
+--  DDL for Table ITEM
+--------------------------------------------------------
+
+  CREATE TABLE "ITEM" 
+   (	"ITEM_NUM" NUMBER, 
+	"PRICE" NUMBER, 
+	"STOCK" NUMBER, 
+	"SALES" NUMBER DEFAULT 0, 
+	"DISCOUNT" NUMBER, 
+	"REG_DATE" DATE DEFAULT sysdate, 
+	"UNIT_PRICE" NUMBER, 
+	"PRODUCT_ID" VARCHAR2(20 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "ITEM"."ITEM_NUM" IS '제품 번호';
+   COMMENT ON COLUMN "ITEM"."PRICE" IS '가격';
+   COMMENT ON COLUMN "ITEM"."STOCK" IS '재고';
+   COMMENT ON COLUMN "ITEM"."SALES" IS '판매';
+   COMMENT ON COLUMN "ITEM"."DISCOUNT" IS '할인률';
+   COMMENT ON COLUMN "ITEM"."REG_DATE" IS '제품 등록일자';
+   COMMENT ON COLUMN "ITEM"."UNIT_PRICE" IS '단위 가격';
+   COMMENT ON COLUMN "ITEM"."PRODUCT_ID" IS '상품 아이디';
+   COMMENT ON TABLE "ITEM"  IS '제품';
+--------------------------------------------------------
+--  DDL for Table MEMBER
+--------------------------------------------------------
+
+  CREATE TABLE "MEMBER" 
+   (	"MEMBER_ID" VARCHAR2(100 BYTE), 
+	"PASSWORD" VARCHAR2(50 BYTE), 
+	"MEMBER_NAME" VARCHAR2(100 BYTE), 
+	"EMAIL" VARCHAR2(200 BYTE), 
+	"PHONE" VARCHAR2(20 BYTE), 
+	"ZIPNO" VARCHAR2(500 BYTE), 
+	"LOAD_ADDRESS" VARCHAR2(500 BYTE), 
+	"JIBUN_ADDRESS" VARCHAR2(500 BYTE), 
+	"REST_ADDRESS" VARCHAR2(500 BYTE), 
+	"MEMBER_DATE" DATE DEFAULT SYSDATE, 
+	"BIRTHDAY" VARCHAR2(20 BYTE), 
+	"PRE_SCORE" NUMBER, 
+	"THIS_SCORE" NUMBER, 
+	"POINT" NUMBER DEFAULT 0, 
+	"MEMBER_STATUS" VARCHAR2(20 BYTE) DEFAULT '일반'
+   ) ;
+--------------------------------------------------------
+--  DDL for Table MEMBER_DETAIL
+--------------------------------------------------------
+
+  CREATE TABLE "MEMBER_DETAIL" 
+   (	"MEMBER_ID" VARCHAR2(20 BYTE), 
+	"LANGUAGE" VARCHAR2(20 BYTE), 
+	"BANNER_OPTION" NUMBER
+   ) ;
+
+   COMMENT ON COLUMN "MEMBER_DETAIL"."MEMBER_ID" IS '회원 아이디';
+   COMMENT ON COLUMN "MEMBER_DETAIL"."LANGUAGE" IS '언어';
+   COMMENT ON COLUMN "MEMBER_DETAIL"."BANNER_OPTION" IS '배너 옵션';
+   COMMENT ON TABLE "MEMBER_DETAIL"  IS '지울까?';
+--------------------------------------------------------
+--  DDL for Table MEMBER_GRADE
+--------------------------------------------------------
+
+  CREATE TABLE "MEMBER_GRADE" 
+   (	"GRADE" VARCHAR2(20 BYTE), 
+	"LOW_SCORE" NUMBER, 
+	"HIGH_SCORE" NUMBER
+   ) ;
+
+   COMMENT ON COLUMN "MEMBER_GRADE"."GRADE" IS '등급';
+   COMMENT ON COLUMN "MEMBER_GRADE"."LOW_SCORE" IS '최소 실적';
+   COMMENT ON COLUMN "MEMBER_GRADE"."HIGH_SCORE" IS '최대 실적';
+   COMMENT ON TABLE "MEMBER_GRADE"  IS '회원등급';
+--------------------------------------------------------
+--  DDL for Table MEMBER_LOGIN
+--------------------------------------------------------
+
+  CREATE TABLE "MEMBER_LOGIN" 
+   (	"MEMBER_ID" VARCHAR2(20 BYTE), 
+	"PASSWORD" VARCHAR2(50 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "MEMBER_LOGIN"."MEMBER_ID" IS '회원 아이디';
+   COMMENT ON COLUMN "MEMBER_LOGIN"."PASSWORD" IS '비밀번호';
+   COMMENT ON TABLE "MEMBER_LOGIN"  IS '로그인';
+--------------------------------------------------------
+--  DDL for Table MEMBER_QNA
+--------------------------------------------------------
+
+  CREATE TABLE "MEMBER_QNA" 
+   (	"MEMBER_QNA_NUM" NUMBER, 
+	"TITLE" VARCHAR2(200 BYTE), 
+	"CONTENTS" VARCHAR2(4000 BYTE), 
+	"QNA_CATEGORY_NUM" NUMBER, 
+	"ORDER_NUM" VARCHAR2(100 BYTE), 
+	"MEMBER_ID" VARCHAR2(20 BYTE), 
+	"EMAIL" VARCHAR2(200 BYTE), 
+	"PHONE" VARCHAR2(20 BYTE), 
+	"REG_DATE" DATE DEFAULT sysdate, 
+	"PARENT_NUM" NUMBER DEFAULT 0, 
+	"IMAGE" VARCHAR2(4000 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "MEMBER_QNA"."MEMBER_QNA_NUM" IS '회원 질문 번호';
+   COMMENT ON COLUMN "MEMBER_QNA"."TITLE" IS '제목';
+   COMMENT ON COLUMN "MEMBER_QNA"."CONTENTS" IS '내용';
+   COMMENT ON COLUMN "MEMBER_QNA"."QNA_CATEGORY_NUM" IS '질문 카테고리 번호';
+   COMMENT ON COLUMN "MEMBER_QNA"."ORDER_NUM" IS '주문 번호';
+   COMMENT ON COLUMN "MEMBER_QNA"."MEMBER_ID" IS '회원 아이디';
+   COMMENT ON COLUMN "MEMBER_QNA"."EMAIL" IS '이메일';
+   COMMENT ON COLUMN "MEMBER_QNA"."PHONE" IS '전화번호';
+   COMMENT ON TABLE "MEMBER_QNA"  IS '이메일, 전화번호 FK로 할건지??';
+--------------------------------------------------------
+--  DDL for Table MYLIST
+--------------------------------------------------------
+
+  CREATE TABLE "MYLIST" 
+   (	"MEMBER_ID" VARCHAR2(100 BYTE), 
+	"PRODUCT_ID" VARCHAR2(20 BYTE), 
+	"MYLIST_DATE" DATE DEFAULT SYSDATE
+   ) ;
+
+   COMMENT ON COLUMN "MYLIST"."MEMBER_ID" IS '회원 아이디';
+   COMMENT ON COLUMN "MYLIST"."PRODUCT_ID" IS '상품 아이디';
+   COMMENT ON TABLE "MYLIST"  IS '찜 리스트';
+--------------------------------------------------------
+--  DDL for Table NOTICE
+--------------------------------------------------------
+
+  CREATE TABLE "NOTICE" 
+   (	"NOTICE_NUM" NUMBER, 
+	"TITLE" VARCHAR2(200 BYTE), 
+	"CONTENTS" VARCHAR2(4000 BYTE), 
+	"REG_DATE" DATE DEFAULT sysdate, 
+	"VIEWS" NUMBER, 
+	"IMAGE" VARCHAR2(4000 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "NOTICE"."NOTICE_NUM" IS '공지 번호';
+   COMMENT ON COLUMN "NOTICE"."TITLE" IS '제목';
+   COMMENT ON COLUMN "NOTICE"."CONTENTS" IS '내용';
+   COMMENT ON COLUMN "NOTICE"."REG_DATE" IS '등록 날짜';
+   COMMENT ON COLUMN "NOTICE"."VIEWS" IS '조회수';
+   COMMENT ON TABLE "NOTICE"  IS '공지사항';
+--------------------------------------------------------
+--  DDL for Table ORDERS
+--------------------------------------------------------
+
+  CREATE TABLE "ORDERS" 
+   (	"ORDER_NUM" VARCHAR2(100 BYTE), 
+	"TOTALPRICE" NUMBER, 
+	"APPLY_NUM" VARCHAR2(100 BYTE), 
+	"ORDER_STATUS" VARCHAR2(20 BYTE), 
+	"PG" VARCHAR2(20 BYTE), 
+	"ORDER_DATE" DATE DEFAULT sysdate, 
+	"PAID_AT" NUMBER, 
+	"MEMBER_ID" VARCHAR2(100 BYTE), 
+	"MEMBER_NAME" VARCHAR2(100 BYTE), 
+	"EMAIL" VARCHAR2(200 BYTE), 
+	"PHONE" VARCHAR2(20 BYTE), 
+	"ZIPNO" VARCHAR2(500 BYTE), 
+	"TIMESTAMP" DATE, 
+	"DELIVERY_REQUEST" VARCHAR2(500 BYTE), 
+	"ADDRESS" VARCHAR2(1000 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "ORDERS"."ORDER_NUM" IS '주문 번호';
+   COMMENT ON COLUMN "ORDERS"."TOTALPRICE" IS '총 가격';
+   COMMENT ON COLUMN "ORDERS"."APPLY_NUM" IS '카드사 승인번호';
+   COMMENT ON COLUMN "ORDERS"."ORDER_STATUS" IS '주문 상태';
+   COMMENT ON COLUMN "ORDERS"."PG" IS 'PG';
+   COMMENT ON COLUMN "ORDERS"."ORDER_DATE" IS '주문 날짜';
+   COMMENT ON COLUMN "ORDERS"."PAID_AT" IS '결제 승인시각';
+   COMMENT ON COLUMN "ORDERS"."MEMBER_ID" IS '회원 아이디';
+   COMMENT ON COLUMN "ORDERS"."MEMBER_NAME" IS '회원 이름';
+   COMMENT ON COLUMN "ORDERS"."EMAIL" IS '이메일';
+   COMMENT ON COLUMN "ORDERS"."PHONE" IS '전화번호';
+   COMMENT ON COLUMN "ORDERS"."ZIPNO" IS '우편번호';
+   COMMENT ON COLUMN "ORDERS"."TIMESTAMP" IS '처리일자';
+   COMMENT ON COLUMN "ORDERS"."DELIVERY_REQUEST" IS '배송 요청';
+   COMMENT ON TABLE "ORDERS"  IS '주문정보';
+--------------------------------------------------------
+--  DDL for Table ORDERS_DETAIL
+--------------------------------------------------------
+
+  CREATE TABLE "ORDERS_DETAIL" 
+   (	"ORDER_NUM" VARCHAR2(100 BYTE), 
+	"PRODUCT_ID" VARCHAR2(20 BYTE), 
+	"QUANTITY" NUMBER, 
+	"PRICE" NUMBER, 
+	"SALE_PRICE" NUMBER, 
+	"OPTION_NAME" VARCHAR2(100 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "ORDERS_DETAIL"."ORDER_NUM" IS '주문 번호';
+   COMMENT ON COLUMN "ORDERS_DETAIL"."PRODUCT_ID" IS '제품 번호';
+   COMMENT ON COLUMN "ORDERS_DETAIL"."QUANTITY" IS '주문 수량';
+   COMMENT ON TABLE "ORDERS_DETAIL"  IS '주문상세정보';
+--------------------------------------------------------
+--  DDL for Table ORDERS_HISTORY
+--------------------------------------------------------
+
+  CREATE TABLE "ORDERS_HISTORY" 
+   (	"ORDER_NUM" NUMBER, 
+	"MEMBER_ID" VARCHAR2(20 BYTE), 
+	"ORDER_DATE" DATE DEFAULT sysdate, 
+	"TOTAL_PRICE" NUMBER, 
+	"ORDER_STATUS" VARCHAR2(20 BYTE), 
+	"CARD_NAME" VARCHAR2(100 BYTE), 
+	"CARD_NUM" NUMBER, 
+	"TIMESTAMP" DATE, 
+	"DESTINATION" VARCHAR2(500 BYTE), 
+	"DELIVERY_REQUEST" VARCHAR2(500 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "ORDERS_HISTORY"."ORDER_NUM" IS '주문 번호';
+   COMMENT ON COLUMN "ORDERS_HISTORY"."MEMBER_ID" IS '회원 아이디';
+   COMMENT ON COLUMN "ORDERS_HISTORY"."ORDER_DATE" IS '주문 날짜';
+   COMMENT ON COLUMN "ORDERS_HISTORY"."TOTAL_PRICE" IS '총 가격';
+   COMMENT ON COLUMN "ORDERS_HISTORY"."ORDER_STATUS" IS '주문 상태';
+   COMMENT ON COLUMN "ORDERS_HISTORY"."CARD_NAME" IS '카드 이름';
+   COMMENT ON COLUMN "ORDERS_HISTORY"."CARD_NUM" IS '카드 번호';
+   COMMENT ON COLUMN "ORDERS_HISTORY"."TIMESTAMP" IS '처리일자';
+   COMMENT ON COLUMN "ORDERS_HISTORY"."DESTINATION" IS '도착지';
+   COMMENT ON COLUMN "ORDERS_HISTORY"."DELIVERY_REQUEST" IS '배송 요청';
+   COMMENT ON TABLE "ORDERS_HISTORY"  IS '주문 히스토리';
+--------------------------------------------------------
+--  DDL for Table PRODUCT
+--------------------------------------------------------
+
+  CREATE TABLE "PRODUCT" 
+   (	"PRODUCT_ID" VARCHAR2(20 BYTE), 
+	"PRODUCT_NAME" VARCHAR2(100 BYTE), 
+	"PRODUCT_DETAIL" VARCHAR2(4000 BYTE), 
+	"SALES_UNIT" VARCHAR2(100 BYTE), 
+	"PRODUCT_SIZE" VARCHAR2(100 BYTE), 
+	"PACKING_TYPE" VARCHAR2(20 BYTE), 
+	"PRODUCT_IMAGE" VARCHAR2(1000 BYTE), 
+	"SUPPLIER" VARCHAR2(100 BYTE), 
+	"PRODUCT_CATEGORY_NUM" NUMBER, 
+	"PRODUCT_DETAIL_IMAGE" VARCHAR2(100 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "PRODUCT"."PRODUCT_ID" IS '상품 아이디';
+   COMMENT ON COLUMN "PRODUCT"."PRODUCT_NAME" IS '상품 이름';
+   COMMENT ON COLUMN "PRODUCT"."PRODUCT_DETAIL" IS '상품 설명';
+   COMMENT ON COLUMN "PRODUCT"."SALES_UNIT" IS '판매 단위';
+   COMMENT ON COLUMN "PRODUCT"."PRODUCT_SIZE" IS '상품 용량';
+   COMMENT ON COLUMN "PRODUCT"."PACKING_TYPE" IS '포장 타입';
+   COMMENT ON COLUMN "PRODUCT"."PRODUCT_IMAGE" IS '상품 이미지';
+   COMMENT ON COLUMN "PRODUCT"."SUPPLIER" IS '거래처';
+   COMMENT ON COLUMN "PRODUCT"."PRODUCT_CATEGORY_NUM" IS '상품 카테고리 번호';
+   COMMENT ON TABLE "PRODUCT"  IS '상품';
+--------------------------------------------------------
+--  DDL for Table PRODUCT_CATEGORY
+--------------------------------------------------------
+
+  CREATE TABLE "PRODUCT_CATEGORY" 
+   (	"PRODUCT_CATEGORY_NUM" NUMBER, 
+	"PRODUCT_CATEGORY_NAME" VARCHAR2(100 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "PRODUCT_CATEGORY"."PRODUCT_CATEGORY_NUM" IS '상품 카테고리 번호';
+   COMMENT ON COLUMN "PRODUCT_CATEGORY"."PRODUCT_CATEGORY_NAME" IS '상품 카테고리 이름';
+   COMMENT ON TABLE "PRODUCT_CATEGORY"  IS '상품 카테고리';
+--------------------------------------------------------
+--  DDL for Table PRODUCT_OPTION
+--------------------------------------------------------
+
+  CREATE TABLE "PRODUCT_OPTION" 
+   (	"OPTION_NAME" VARCHAR2(100 BYTE), 
+	"OPTION_PRICE" NUMBER, 
+	"OPTION_QUANTITY" NUMBER, 
+	"PRODUCT_ID" VARCHAR2(20 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "PRODUCT_OPTION"."OPTION_NAME" IS '옵션 이름';
+   COMMENT ON COLUMN "PRODUCT_OPTION"."OPTION_PRICE" IS '옵션 가격';
+   COMMENT ON COLUMN "PRODUCT_OPTION"."OPTION_QUANTITY" IS '옵션 수량';
+   COMMENT ON COLUMN "PRODUCT_OPTION"."PRODUCT_ID" IS '상품 아이디';
+   COMMENT ON TABLE "PRODUCT_OPTION"  IS '상품 옵션';
+--------------------------------------------------------
+--  DDL for Table PRODUCT_QNA
+--------------------------------------------------------
+
+  CREATE TABLE "PRODUCT_QNA" 
+   (	"PRODUCT_QNA_NUM" NUMBER, 
+	"PRODUCT_ID" VARCHAR2(20 BYTE), 
+	"MEMBER_ID" VARCHAR2(20 BYTE), 
+	"TITLE" VARCHAR2(200 BYTE), 
+	"CONTENTS" VARCHAR2(4000 BYTE), 
+	"IMAGE1" VARCHAR2(100 BYTE), 
+	"QNA_CATEGORY_NUM" NUMBER, 
+	"REG_DATE" DATE DEFAULT sysdate, 
+	"VIEWS" NUMBER, 
+	"PARENT_NUM" NUMBER DEFAULT 0, 
+	"IMAGE2" VARCHAR2(100 BYTE), 
+	"IMAGE3" VARCHAR2(100 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "PRODUCT_QNA"."PRODUCT_QNA_NUM" IS '상품 질문 번호';
+   COMMENT ON COLUMN "PRODUCT_QNA"."PRODUCT_ID" IS '상품 아이디';
+   COMMENT ON COLUMN "PRODUCT_QNA"."MEMBER_ID" IS '회원 아이디';
+   COMMENT ON COLUMN "PRODUCT_QNA"."TITLE" IS '제목';
+   COMMENT ON COLUMN "PRODUCT_QNA"."CONTENTS" IS '내용';
+   COMMENT ON COLUMN "PRODUCT_QNA"."IMAGE1" IS '이미지';
+   COMMENT ON COLUMN "PRODUCT_QNA"."QNA_CATEGORY_NUM" IS '질문 카테고리 번호';
+   COMMENT ON COLUMN "PRODUCT_QNA"."REG_DATE" IS '등록 날짜';
+   COMMENT ON COLUMN "PRODUCT_QNA"."VIEWS" IS '조회수';
+   COMMENT ON COLUMN "PRODUCT_QNA"."PARENT_NUM" IS '부모글 번호';
+   COMMENT ON TABLE "PRODUCT_QNA"  IS '상품문의';
+--------------------------------------------------------
+--  DDL for Table QNA_CATEGORY
+--------------------------------------------------------
+
+  CREATE TABLE "QNA_CATEGORY" 
+   (	"QNA_CATEGORY_NUM" NUMBER, 
+	"QNA_CATEGORY_NAME" VARCHAR2(100 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "QNA_CATEGORY"."QNA_CATEGORY_NUM" IS '질문 카테고리 번호';
+   COMMENT ON COLUMN "QNA_CATEGORY"."QNA_CATEGORY_NAME" IS '질문 카테고리 이름';
+   COMMENT ON TABLE "QNA_CATEGORY"  IS '질문 카테고리';
+--------------------------------------------------------
+--  DDL for Table REVIEW
+--------------------------------------------------------
+
+  CREATE TABLE "REVIEW" 
+   (	"REVIEW_NUM" NUMBER, 
+	"PRODUCT_ID" VARCHAR2(20 BYTE), 
+	"MEMBER_ID" VARCHAR2(20 BYTE), 
+	"TITLE" VARCHAR2(200 BYTE), 
+	"CONTENTS" VARCHAR2(4000 BYTE), 
+	"IMAGE1" VARCHAR2(100 BYTE), 
+	"VIEWS" NUMBER, 
+	"RATED" NUMBER, 
+	"REG_DATE" DATE DEFAULT sysdate, 
+	"IMAGE2" VARCHAR2(100 BYTE), 
+	"IMAGE3" VARCHAR2(100 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "REVIEW"."REVIEW_NUM" IS '후기 번호';
+   COMMENT ON COLUMN "REVIEW"."PRODUCT_ID" IS '상품 아이디';
+   COMMENT ON COLUMN "REVIEW"."MEMBER_ID" IS '회원 아이디';
+   COMMENT ON COLUMN "REVIEW"."TITLE" IS '제목';
+   COMMENT ON COLUMN "REVIEW"."CONTENTS" IS '내용';
+   COMMENT ON COLUMN "REVIEW"."IMAGE1" IS '이미지';
+   COMMENT ON COLUMN "REVIEW"."VIEWS" IS '조회수';
+   COMMENT ON COLUMN "REVIEW"."RATED" IS '별점';
+   COMMENT ON COLUMN "REVIEW"."REG_DATE" IS '등록 날짜';
+   COMMENT ON TABLE "REVIEW"  IS '상품 후기';
+--------------------------------------------------------
+--  DDL for Table SHIPPING
+--------------------------------------------------------
+
+  CREATE TABLE "SHIPPING" 
+   (	"MEMBER_ID" VARCHAR2(100 BYTE), 
+	"ZIPNO" VARCHAR2(500 BYTE), 
+	"LOAD_ADDRESS" VARCHAR2(500 BYTE), 
+	"JIBUN_ADDRESS" VARCHAR2(500 BYTE), 
+	"REST_ADDRESS" VARCHAR2(500 BYTE)
+   ) ;
+
+   COMMENT ON COLUMN "SHIPPING"."MEMBER_ID" IS '회원 아이디';
+   COMMENT ON COLUMN "SHIPPING"."ZIPNO" IS '우편번호';
+   COMMENT ON COLUMN "SHIPPING"."LOAD_ADDRESS" IS '도로명 주소';
+   COMMENT ON COLUMN "SHIPPING"."JIBUN_ADDRESS" IS '지번 주소';
+   COMMENT ON COLUMN "SHIPPING"."REST_ADDRESS" IS '나머지 주소';
+   COMMENT ON TABLE "SHIPPING"  IS '배송지';
+--------------------------------------------------------
+--  DDL for Table TMP
+--------------------------------------------------------
+
+  CREATE TABLE "TMP" 
+   (	"IDX_TMP" NUMBER(10,0), 
+	"NAME" VARCHAR2(1000 BYTE)
+   ) ;
+REM INSERTING into CART
+SET DEFINE OFF;
+Insert into CART (MEMBER_ID,QUANTITY,CART_ID,OPTION_NAME,PRODUCT_NAME) values ('a',5,17,null,'팜하우스 골드 밀크');
+Insert into CART (MEMBER_ID,QUANTITY,CART_ID,OPTION_NAME,PRODUCT_NAME) values ('aa',1,4,'로스티드 갈릭 후무스 150g','후무스 4종');
+Insert into CART (MEMBER_ID,QUANTITY,CART_ID,OPTION_NAME,PRODUCT_NAME) values ('s',8,10,'플레인 닭가슴살','냉동 닭가슴살 4종');
+Insert into CART (MEMBER_ID,QUANTITY,CART_ID,OPTION_NAME,PRODUCT_NAME) values ('aa',3,7,'후무스 블랙올리브 150g','후무스 4종');
+Insert into CART (MEMBER_ID,QUANTITY,CART_ID,OPTION_NAME,PRODUCT_NAME) values ('aa',7,8,null,'데니쉬');
+Insert into CART (MEMBER_ID,QUANTITY,CART_ID,OPTION_NAME,PRODUCT_NAME) values ('admin',1,9,'후무스 오리지널 150g','후무스 4종');
+Insert into CART (MEMBER_ID,QUANTITY,CART_ID,OPTION_NAME,PRODUCT_NAME) values ('aaa',8,14,'호두 크림치즈','크림치즈 4종');
+Insert into CART (MEMBER_ID,QUANTITY,CART_ID,OPTION_NAME,PRODUCT_NAME) values ('aaa',3,13,'블루베리 크림치즈','크림치즈 4종');
+Insert into CART (MEMBER_ID,QUANTITY,CART_ID,OPTION_NAME,PRODUCT_NAME) values ('a',7,16,null,'태양의 식후비법W차');
+REM INSERTING into FAQ
+SET DEFINE OFF;
+Insert into FAQ (FAQ_NUM,QNA_CATEGORY_NUM,TITLE,CONTENTS) values (4,1,'TEST','EST');
+Insert into FAQ (FAQ_NUM,QNA_CATEGORY_NUM,TITLE,CONTENTS) values (5,2,'faq_title5','faq_contents5');
+Insert into FAQ (FAQ_NUM,QNA_CATEGORY_NUM,TITLE,CONTENTS) values (6,5,'test1111','<p>test1111</p>');
+REM INSERTING into ITEM
+SET DEFINE OFF;
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (99,42000,100,10,10,to_date('20/11/01','RR/MM/DD'),5000,'meat4');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (1,4700,10,1,10,to_date('20/11/02','RR/MM/DD'),4700,'bread1');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (2,3200,6,5,0,to_date('20/11/05','RR/MM/DD'),3200,'bread2');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (3,7900,10,1,10,to_date('20/11/06','RR/MM/DD'),7900,'bread3');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (4,3500,10,1,10,to_date('20/11/07','RR/MM/DD'),3500,'bread4');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (5,5500,10,1,10,to_date('20/11/08','RR/MM/DD'),5500,'bread5');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (6,6900,10,1,0,to_date('20/11/09','RR/MM/DD'),6900,'bread6');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (7,4900,10,1,0,to_date('20/11/10','RR/MM/DD'),4900,'bread7');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (8,5500,10,1,0,to_date('20/11/11','RR/MM/DD'),5500,'bread8');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (9,3000,10,1,0,to_date('20/11/12','RR/MM/DD'),3000,'bread9');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (10,9000,10,1,0,to_date('20/11/03','RR/MM/DD'),9000,'bread10');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (11,600,8,4,0,to_date('20/11/13','RR/MM/DD'),2610,'drink1');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (12,3900,10,1,10,to_date('20/11/14','RR/MM/DD'),3900,'drink2');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (14,7400,10,2,10,to_date('20/11/16','RR/MM/DD'),7400,'fruit1');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (15,4800,10,1,0,to_date('20/11/17','RR/MM/DD'),4800,'fruit2');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (16,2600,10,1,10,to_date('20/11/18','RR/MM/DD'),4800,'fruit3');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (17,2900,10,1,0,to_date('20/11/19','RR/MM/DD'),2900,'vege1');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (18,2100,9,2,0,to_date('20/11/20','RR/MM/DD'),2900,'vege2');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (19,2100,10,4,10,to_date('20/12/02','RR/MM/DD'),2900,'vege3');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (20,1700,7,1,0,to_date('20/12/02','RR/MM/DD'),1700,'meat1');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (21,2900,10,2,10,to_date('20/11/15','RR/MM/DD'),2900,'meat2');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (22,47000,10,1,10,to_date('20/11/04','RR/MM/DD'),47000,'meat3');
+Insert into ITEM (ITEM_NUM,PRICE,STOCK,SALES,DISCOUNT,REG_DATE,UNIT_PRICE,PRODUCT_ID) values (13,1400,10,1,10,to_date('20/12/02','RR/MM/DD'),1400,'drink3');
+REM INSERTING into MEMBER
+SET DEFINE OFF;
+Insert into MEMBER (MEMBER_ID,PASSWORD,MEMBER_NAME,EMAIL,PHONE,ZIPNO,LOAD_ADDRESS,JIBUN_ADDRESS,REST_ADDRESS,MEMBER_DATE,BIRTHDAY,PRE_SCORE,THIS_SCORE,POINT,MEMBER_STATUS) values ('110789329351029804629','0000','하정원','jwha94@gmail.com','010-7610-9497','03753','서울 서대문구 경기대로 9 (충정로3가)','서울 서대문구 충정로3가 35-1','빌딩',to_date('20/12/03','RR/MM/DD'),'1994-02-26',1000000,null,0,'구글');
+Insert into MEMBER (MEMBER_ID,PASSWORD,MEMBER_NAME,EMAIL,PHONE,ZIPNO,LOAD_ADDRESS,JIBUN_ADDRESS,REST_ADDRESS,MEMBER_DATE,BIRTHDAY,PRE_SCORE,THIS_SCORE,POINT,MEMBER_STATUS) values ('admin','admin','관리자','lee@naver.com','000-222-1111','05242','서울 강남구 강남대로 708 (압구정동)','서울 강남구 압구정동 386-1','dd',to_date('20/10/01','RR/MM/DD'),null,0,null,0,'관리자');
+Insert into MEMBER (MEMBER_ID,PASSWORD,MEMBER_NAME,EMAIL,PHONE,ZIPNO,LOAD_ADDRESS,JIBUN_ADDRESS,REST_ADDRESS,MEMBER_DATE,BIRTHDAY,PRE_SCORE,THIS_SCORE,POINT,MEMBER_STATUS) values ('s','s','신상연','s1@s1.com','01000000000','429060','d','d','d',to_date('20/12/03','RR/MM/DD'),'2020-12-03',null,null,0,'일반');
+Insert into MEMBER (MEMBER_ID,PASSWORD,MEMBER_NAME,EMAIL,PHONE,ZIPNO,LOAD_ADDRESS,JIBUN_ADDRESS,REST_ADDRESS,MEMBER_DATE,BIRTHDAY,PRE_SCORE,THIS_SCORE,POINT,MEMBER_STATUS) values ('agg123','aaaaaaaa','이순신','leeyoung781@naver.com','01054874512','46729','부산 강서구 가달1로 7 (생곡동)','부산 강서구 생곡동 1598-1','강서빌라',to_date('20/12/03','RR/MM/DD'),'2020-12-18',null,null,0,'일반');
+Insert into MEMBER (MEMBER_ID,PASSWORD,MEMBER_NAME,EMAIL,PHONE,ZIPNO,LOAD_ADDRESS,JIBUN_ADDRESS,REST_ADDRESS,MEMBER_DATE,BIRTHDAY,PRE_SCORE,THIS_SCORE,POINT,MEMBER_STATUS) values ('a','a','a','asdf@verae.clf','33333','a','a','a','a',to_date('20/12/04','RR/MM/DD'),'2020-12-03',null,null,0,'일반');
+Insert into MEMBER (MEMBER_ID,PASSWORD,MEMBER_NAME,EMAIL,PHONE,ZIPNO,LOAD_ADDRESS,JIBUN_ADDRESS,REST_ADDRESS,MEMBER_DATE,BIRTHDAY,PRE_SCORE,THIS_SCORE,POINT,MEMBER_STATUS) values ('109316603227848719778','0000','이은영','leeyoung778811@gmail.com','33333','08846','서울 관악구 방천길 3 (신림동)','서울 관악구 신림동 394-27','신림미더스 ',to_date('20/11/26','RR/MM/DD'),'2020-11-05',10000,null,0,'구글');
+Insert into MEMBER (MEMBER_ID,PASSWORD,MEMBER_NAME,EMAIL,PHONE,ZIPNO,LOAD_ADDRESS,JIBUN_ADDRESS,REST_ADDRESS,MEMBER_DATE,BIRTHDAY,PRE_SCORE,THIS_SCORE,POINT,MEMBER_STATUS) values ('joy','1104','전가영','duio0oiub@naver.com','01062790216','05613','서울 송파구 백제고분로33길 13-20 (석촌동)','서울 송파구 석촌동 7-6','403호',to_date('20/12/02','RR/MM/DD'),'1994-02-16',null,null,0,'일반');
+Insert into MEMBER (MEMBER_ID,PASSWORD,MEMBER_NAME,EMAIL,PHONE,ZIPNO,LOAD_ADDRESS,JIBUN_ADDRESS,REST_ADDRESS,MEMBER_DATE,BIRTHDAY,PRE_SCORE,THIS_SCORE,POINT,MEMBER_STATUS) values ('qq','qq','이은영','leeyoung781@naver.com','66666','48060','부산 해운대구 APEC로 17 (우동)','부산 해운대구 우동 1514','리더스',to_date('20/11/30','RR/MM/DD'),'2020-11-24',1000000,null,0,'일반');
+Insert into MEMBER (MEMBER_ID,PASSWORD,MEMBER_NAME,EMAIL,PHONE,ZIPNO,LOAD_ADDRESS,JIBUN_ADDRESS,REST_ADDRESS,MEMBER_DATE,BIRTHDAY,PRE_SCORE,THIS_SCORE,POINT,MEMBER_STATUS) values ('b','b','b','b','b','b','b','b','b',to_date('20/12/04','RR/MM/DD'),null,null,null,0,'일반');
+Insert into MEMBER (MEMBER_ID,PASSWORD,MEMBER_NAME,EMAIL,PHONE,ZIPNO,LOAD_ADDRESS,JIBUN_ADDRESS,REST_ADDRESS,MEMBER_DATE,BIRTHDAY,PRE_SCORE,THIS_SCORE,POINT,MEMBER_STATUS) values ('c','c','c','c','c','c','c','ccc','c',to_date('20/12/04','RR/MM/DD'),null,null,null,0,'일반');
+REM INSERTING into MEMBER_DETAIL
+SET DEFINE OFF;
+REM INSERTING into MEMBER_GRADE
+SET DEFINE OFF;
+Insert into MEMBER_GRADE (GRADE,LOW_SCORE,HIGH_SCORE) values ('일반회원',0,100000);
+Insert into MEMBER_GRADE (GRADE,LOW_SCORE,HIGH_SCORE) values ('우수회원',100000,1000000);
+Insert into MEMBER_GRADE (GRADE,LOW_SCORE,HIGH_SCORE) values ('짱짱회원',1000000,10000000);
+REM INSERTING into MEMBER_LOGIN
+SET DEFINE OFF;
+REM INSERTING into MEMBER_QNA
+SET DEFINE OFF;
+Insert into MEMBER_QNA (MEMBER_QNA_NUM,TITLE,CONTENTS,QNA_CATEGORY_NUM,ORDER_NUM,MEMBER_ID,EMAIL,PHONE,REG_DATE,PARENT_NUM,IMAGE) values (1,'test111111111','asdf',1,'1','joy','vordmatal748@naver.com','58469143',to_date('20/12/03','RR/MM/DD'),0,'KakaoTalk_20201129_235737590.jpg,KakaoTalk_20201129_235904518.jpg,KakaoTalk_20201130_002148158.jpg,KakaoTalk_20201130_002215599.jpg');
+Insert into MEMBER_QNA (MEMBER_QNA_NUM,TITLE,CONTENTS,QNA_CATEGORY_NUM,ORDER_NUM,MEMBER_ID,EMAIL,PHONE,REG_DATE,PARENT_NUM,IMAGE) values (2,'test','test',4,'imp_492369915555','joy','duio0oiub@naver.com','01062790216',to_date('20/12/02','RR/MM/DD'),0,'KakaoTalk_20201129_235737590.jpg,KakaoTalk_20201129_235904518.jpg,KakaoTalk_20201130_002148158.jpg');
+Insert into MEMBER_QNA (MEMBER_QNA_NUM,TITLE,CONTENTS,QNA_CATEGORY_NUM,ORDER_NUM,MEMBER_ID,EMAIL,PHONE,REG_DATE,PARENT_NUM,IMAGE) values (6,'test','asdf',5,'imp_492369915555','joy','duio0oiub@naver.com','01062790216',to_date('20/12/03','RR/MM/DD'),0,'보리1(1).jpg');
+Insert into MEMBER_QNA (MEMBER_QNA_NUM,TITLE,CONTENTS,QNA_CATEGORY_NUM,ORDER_NUM,MEMBER_ID,EMAIL,PHONE,REG_DATE,PARENT_NUM,IMAGE) values (8,'test','test',2,null,'joy','duio0oiub@naver.com','01062790216',to_date('20/12/03','RR/MM/DD'),0,null);
+Insert into MEMBER_QNA (MEMBER_QNA_NUM,TITLE,CONTENTS,QNA_CATEGORY_NUM,ORDER_NUM,MEMBER_ID,EMAIL,PHONE,REG_DATE,PARENT_NUM,IMAGE) values (10,'test','test',4,'imp_492369915555','admin','lee@naver.com','000-222-1111',to_date('20/12/04','RR/MM/DD'),9,null);
+Insert into MEMBER_QNA (MEMBER_QNA_NUM,TITLE,CONTENTS,QNA_CATEGORY_NUM,ORDER_NUM,MEMBER_ID,EMAIL,PHONE,REG_DATE,PARENT_NUM,IMAGE) values (9,'test','test',4,'imp_492369915555','joy','duio0oiub@naver.com','01062790216',to_date('20/12/04','RR/MM/DD'),0,'보리1(1).jpg,보리1(2).jpg');
+REM INSERTING into MYLIST
+SET DEFINE OFF;
+Insert into MYLIST (MEMBER_ID,PRODUCT_ID,MYLIST_DATE) values ('s',null,to_date('20/12/03','RR/MM/DD'));
+Insert into MYLIST (MEMBER_ID,PRODUCT_ID,MYLIST_DATE) values ('admin','meat5',to_date('20/12/03','RR/MM/DD'));
+Insert into MYLIST (MEMBER_ID,PRODUCT_ID,MYLIST_DATE) values ('admin',null,to_date('20/12/03','RR/MM/DD'));
+Insert into MYLIST (MEMBER_ID,PRODUCT_ID,MYLIST_DATE) values ('admin',null,to_date('20/12/03','RR/MM/DD'));
+Insert into MYLIST (MEMBER_ID,PRODUCT_ID,MYLIST_DATE) values ('s','meat5',to_date('20/12/03','RR/MM/DD'));
+Insert into MYLIST (MEMBER_ID,PRODUCT_ID,MYLIST_DATE) values ('110789329351029804629','meat3',to_date('20/12/03','RR/MM/DD'));
+Insert into MYLIST (MEMBER_ID,PRODUCT_ID,MYLIST_DATE) values ('110789329351029804629',null,to_date('20/12/04','RR/MM/DD'));
+Insert into MYLIST (MEMBER_ID,PRODUCT_ID,MYLIST_DATE) values ('110789329351029804629','bread2',to_date('20/12/04','RR/MM/DD'));
+Insert into MYLIST (MEMBER_ID,PRODUCT_ID,MYLIST_DATE) values ('110789329351029804629',null,to_date('20/12/04','RR/MM/DD'));
+Insert into MYLIST (MEMBER_ID,PRODUCT_ID,MYLIST_DATE) values ('a',null,to_date('20/12/04','RR/MM/DD'));
+Insert into MYLIST (MEMBER_ID,PRODUCT_ID,MYLIST_DATE) values ('a','bread5',to_date('20/12/03','RR/MM/DD'));
+Insert into MYLIST (MEMBER_ID,PRODUCT_ID,MYLIST_DATE) values ('110789329351029804629','vege3',to_date('20/12/03','RR/MM/DD'));
+REM INSERTING into NOTICE
+SET DEFINE OFF;
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (1,'[닥터쩝쩝] 직원 코로나19 검사 관련안내_전원 음성 판정, 확진자 0명','<p>고객님 안녕하세요. 닥터쩝쩝입니다.</p><p>닥터쩝쩝에서 전 직원이 코로나19 검사를 시행헀고, 전원 음성 판정 완료되었습니다.</p><p>코로나가 급격히 번지고 있는 현 상황에서, 전 직원이 사회적 거리두기를 준수할 수 있도록</p><p>마스크, 손세정, 일일 체온체크를 의무화하고 있으며</p><p>1/2 재택근무를 시행하고 있습니다.</p><p>급격한 확진자 증가에 따라 많은 직원들이 코로나 바이러스 위험에 노출될 수 밖에 없는 환경이므로</p><p>감염 가능성이 조금이라도 있을 경우, 닥터가 검사비용을 지원하여</p><p>그 결과를 투명하게 고객 여러분께 알려드리도록 하겠습니다.</p><p>앞으로도 닥터는 코로나19 확산을 방지하고, 관련된 모든 상황을 고객님께 빠르게 전달하도록 하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),10,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (2,'[가격인상공지] [육심당] 쪽갈비 400g 외 5건','<p>고객님, 안녕하세요.</p><p>"[육심당] 쪽갈비 400g 외 5건" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/11/26','RR/MM/DD'),2,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (3,'[가격인상공지] [피코크] 조선호텔 포기김치 3kg','<p>고객님, 안녕하세요.</p><p>"[피코크] 조선호텔 포기김치 3kg" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/11/27','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (4,'[닥터쩝쩝] 직원 코로나19 검사 관련안내_전원 음성 판정, 확진자 0명','<p>고객님 안녕하세요. 닥터쩝쩝입니다.</p><p>닥터쩝쩝에서 전 직원이 코로나19 검사를 시행헀고, 전원 음성 판정 완료되었습니다.</p><p>코로나가 급격히 번지고 있는 현 상황에서, 전 직원이 사회적 거리두기를 준수할 수 있도록</p><p>마스크, 손세정, 일일 체온체크를 의무화하고 있으며</p><p>1/2 재택근무를 시행하고 있습니다.</p><p>급격한 확진자 증가에 따라 많은 직원들이 코로나 바이러스 위험에 노출될 수 밖에 없는 환경이므로</p><p>감염 가능성이 조금이라도 있을 경우, 닥터가 검사비용을 지원하여</p><p>그 결과를 투명하게 고객 여러분께 알려드리도록 하겠습니다.</p><p>앞으로도 닥터는 코로나19 확산을 방지하고, 관련된 모든 상황을 고객님께 빠르게 전달하도록 하겠습니다.</p><p>감사합니다.</p>',to_date('20/11/28','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (5,'[가격인상공지] [육심당] 쪽갈비 400g 외 5건','<p>고객님, 안녕하세요.</p><p>"[육심당] 쪽갈비 400g 외 5건" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/11/29','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (6,'[가격인상공지] [피코크] 조선호텔 포기김치 3kg','<p>고객님, 안녕하세요.</p><p>"[피코크] 조선호텔 포기김치 3kg" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),5,null);
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (7,'ㅁㄴㅇㄹ','<p>고객님 안녕하세요. 닥터쩝쩝입니다.</p><p>닥터쩝쩝에서 전 직원이 코로나19 검사를 시행헀고, 전원 음성 판정 완료되었습니다.</p><p>코로나가 급격히 번지고 있는 현 상황에서, 전 직원이 사회적 거리두기를 준수할 수 있도록</p><p>마스크, 손세정, 일일 체온체크를 의무화하고 있으며</p><p>1/2 재택근무를 시행하고 있습니다.</p><p>급격한 확진자 증가에 따라 많은 직원들이 코로나 바이러스 위험에 노출될 수 밖에 없는 환경이므로</p><p>감염 가능성이 조금이라도 있을 경우, 닥터가 검사비용을 지원하여</p><p>그 결과를 투명하게 고객 여러분께 알려드리도록 하겠습니다.</p><p>앞으로도 닥터는 코로나19 확산을 방지하고, 관련된 모든 상황을 고객님께 빠르게 전달하도록 하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),3,null);
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (8,'[가격인상공지] [육심당] 쪽갈비 400g 외 5건','<p>고객님, 안녕하세요.</p><p>"[육심당] 쪽갈비 400g 외 5건" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/02','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (9,'[가격인상공지] [피코크] 조선호텔 포기김치 3kg','<p>고객님, 안녕하세요.</p><p>"[피코크] 조선호텔 포기김치 3kg" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/03','RR/MM/DD'),3,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (10,'[닥터쩝쩝] 직원 코로나19 검사 관련안내_전원 음성 판정, 확진자 0명','<p>고객님 안녕하세요. 닥터쩝쩝입니다.</p><p>닥터쩝쩝에서 전 직원이 코로나19 검사를 시행헀고, 전원 음성 판정 완료되었습니다.</p><p>코로나가 급격히 번지고 있는 현 상황에서, 전 직원이 사회적 거리두기를 준수할 수 있도록</p><p>마스크, 손세정, 일일 체온체크를 의무화하고 있으며</p><p>1/2 재택근무를 시행하고 있습니다.</p><p>급격한 확진자 증가에 따라 많은 직원들이 코로나 바이러스 위험에 노출될 수 밖에 없는 환경이므로</p><p>감염 가능성이 조금이라도 있을 경우, 닥터가 검사비용을 지원하여</p><p>그 결과를 투명하게 고객 여러분께 알려드리도록 하겠습니다.</p><p>앞으로도 닥터는 코로나19 확산을 방지하고, 관련된 모든 상황을 고객님께 빠르게 전달하도록 하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (11,'[닥터쩝쩝] 직원 코로나19 검사 관련안내_전원 음성 판정, 확진자 0명','<p>고객님 안녕하세요. 닥터쩝쩝입니다.</p><p>닥터쩝쩝에서 전 직원이 코로나19 검사를 시행헀고, 전원 음성 판정 완료되었습니다.</p><p>코로나가 급격히 번지고 있는 현 상황에서, 전 직원이 사회적 거리두기를 준수할 수 있도록</p><p>마스크, 손세정, 일일 체온체크를 의무화하고 있으며</p><p>1/2 재택근무를 시행하고 있습니다.</p><p>급격한 확진자 증가에 따라 많은 직원들이 코로나 바이러스 위험에 노출될 수 밖에 없는 환경이므로</p><p>감염 가능성이 조금이라도 있을 경우, 닥터가 검사비용을 지원하여</p><p>그 결과를 투명하게 고객 여러분께 알려드리도록 하겠습니다.</p><p>앞으로도 닥터는 코로나19 확산을 방지하고, 관련된 모든 상황을 고객님께 빠르게 전달하도록 하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (15,'[가격인상공지] [육심당] 쪽갈비 400g 외 5건','<p>고객님, 안녕하세요.</p><p>"[육심당] 쪽갈비 400g 외 5건" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (16,'[가격인상공지] [피코크] 조선호텔 포기김치 3kg','<p>고객님, 안녕하세요.</p><p>"[피코크] 조선호텔 포기김치 3kg" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (17,'[닥터쩝쩝] 직원 코로나19 검사 관련안내_전원 음성 판정, 확진자 0명','<p>고객님 안녕하세요. 닥터쩝쩝입니다.</p><p>닥터쩝쩝에서 전 직원이 코로나19 검사를 시행헀고, 전원 음성 판정 완료되었습니다.</p><p>코로나가 급격히 번지고 있는 현 상황에서, 전 직원이 사회적 거리두기를 준수할 수 있도록</p><p>마스크, 손세정, 일일 체온체크를 의무화하고 있으며</p><p>1/2 재택근무를 시행하고 있습니다.</p><p>급격한 확진자 증가에 따라 많은 직원들이 코로나 바이러스 위험에 노출될 수 밖에 없는 환경이므로</p><p>감염 가능성이 조금이라도 있을 경우, 닥터가 검사비용을 지원하여</p><p>그 결과를 투명하게 고객 여러분께 알려드리도록 하겠습니다.</p><p>앞으로도 닥터는 코로나19 확산을 방지하고, 관련된 모든 상황을 고객님께 빠르게 전달하도록 하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (18,'[가격인상공지] [육심당] 쪽갈비 400g 외 5건','<p>고객님, 안녕하세요.</p><p>"[육심당] 쪽갈비 400g 외 5건" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (19,'[가격인상공지] [피코크] 조선호텔 포기김치 3kg','<p>고객님, 안녕하세요.</p><p>"[피코크] 조선호텔 포기김치 3kg" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (20,'[닥터쩝쩝] 직원 코로나19 검사 관련안내_전원 음성 판정, 확진자 0명','<p>고객님 안녕하세요. 닥터쩝쩝입니다.</p><p>닥터쩝쩝에서 전 직원이 코로나19 검사를 시행헀고, 전원 음성 판정 완료되었습니다.</p><p>코로나가 급격히 번지고 있는 현 상황에서, 전 직원이 사회적 거리두기를 준수할 수 있도록</p><p>마스크, 손세정, 일일 체온체크를 의무화하고 있으며</p><p>1/2 재택근무를 시행하고 있습니다.</p><p>급격한 확진자 증가에 따라 많은 직원들이 코로나 바이러스 위험에 노출될 수 밖에 없는 환경이므로</p><p>감염 가능성이 조금이라도 있을 경우, 닥터가 검사비용을 지원하여</p><p>그 결과를 투명하게 고객 여러분께 알려드리도록 하겠습니다.</p><p>앞으로도 닥터는 코로나19 확산을 방지하고, 관련된 모든 상황을 고객님께 빠르게 전달하도록 하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (12,'[가격인상공지] [육심당] 쪽갈비 400g 외 5건','<p>고객님, 안녕하세요.</p><p>"[육심당] 쪽갈비 400g 외 5건" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (13,'[가격인상공지] [피코크] 조선호텔 포기김치 3kg','<p>고객님, 안녕하세요.</p><p>"[피코크] 조선호텔 포기김치 3kg" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (14,'[닥터쩝쩝] 직원 코로나19 검사 관련안내_전원 음성 판정, 확진자 0명','<p>고객님 안녕하세요. 닥터쩝쩝입니다.</p><p>닥터쩝쩝에서 전 직원이 코로나19 검사를 시행헀고, 전원 음성 판정 완료되었습니다.</p><p>코로나가 급격히 번지고 있는 현 상황에서, 전 직원이 사회적 거리두기를 준수할 수 있도록</p><p>마스크, 손세정, 일일 체온체크를 의무화하고 있으며</p><p>1/2 재택근무를 시행하고 있습니다.</p><p>급격한 확진자 증가에 따라 많은 직원들이 코로나 바이러스 위험에 노출될 수 밖에 없는 환경이므로</p><p>감염 가능성이 조금이라도 있을 경우, 닥터가 검사비용을 지원하여</p><p>그 결과를 투명하게 고객 여러분께 알려드리도록 하겠습니다.</p><p>앞으로도 닥터는 코로나19 확산을 방지하고, 관련된 모든 상황을 고객님께 빠르게 전달하도록 하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (21,'[가격인상공지] [육심당] 쪽갈비 400g 외 5건','<p>고객님, 안녕하세요.</p><p>"[육심당] 쪽갈비 400g 외 5건" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (22,'[가격인상공지] [피코크] 조선호텔 포기김치 3kg','<p>고객님, 안녕하세요.</p><p>"[피코크] 조선호텔 포기김치 3kg" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (23,'[닥터쩝쩝] 직원 코로나19 검사 관련안내_전원 음성 판정, 확진자 0명','<p>고객님 안녕하세요. 닥터쩝쩝입니다.</p><p>닥터쩝쩝에서 전 직원이 코로나19 검사를 시행헀고, 전원 음성 판정 완료되었습니다.</p><p>코로나가 급격히 번지고 있는 현 상황에서, 전 직원이 사회적 거리두기를 준수할 수 있도록</p><p>마스크, 손세정, 일일 체온체크를 의무화하고 있으며</p><p>1/2 재택근무를 시행하고 있습니다.</p><p>급격한 확진자 증가에 따라 많은 직원들이 코로나 바이러스 위험에 노출될 수 밖에 없는 환경이므로</p><p>감염 가능성이 조금이라도 있을 경우, 닥터가 검사비용을 지원하여</p><p>그 결과를 투명하게 고객 여러분께 알려드리도록 하겠습니다.</p><p>앞으로도 닥터는 코로나19 확산을 방지하고, 관련된 모든 상황을 고객님께 빠르게 전달하도록 하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (24,'[가격인상공지] [육심당] 쪽갈비 400g 외 5건','<p>고객님, 안녕하세요.</p><p>"[육심당] 쪽갈비 400g 외 5건" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),0,'쩝쩝박사-흰배경2.jpg');
+Insert into NOTICE (NOTICE_NUM,TITLE,CONTENTS,REG_DATE,VIEWS,IMAGE) values (25,'test','<p>고객님, 안녕하세요.</p><p>"[피코크] 조선호텔 포기김치 3kg" 가격을 조정하게 되어 안내드립니다.</p><p>#가격인상 요인</p><p>- 원가 상승으로 인한 판매가 인상</p><p>위의 사유로 공급가가 상승됨에 따라, 컬리에서도 부득이하게 일정부분 가격조정을 하게 된 점 양해 부탁드립니다.</p><p>좋은 품질, 합리적인 가격으로 만족드릴 수 있도록 항상 최선을 다하겠습니다.</p><p>감사합니다.</p>',to_date('20/12/04','RR/MM/DD'),23,null);
+REM INSERTING into ORDERS
+SET DEFINE OFF;
+Insert into ORDERS (ORDER_NUM,TOTALPRICE,APPLY_NUM,ORDER_STATUS,PG,ORDER_DATE,PAID_AT,MEMBER_ID,MEMBER_NAME,EMAIL,PHONE,ZIPNO,TIMESTAMP,DELIVERY_REQUEST,ADDRESS) values ('imp_022045772674',11100,'00606036','배송완료','html5_inicis',to_date('20/12/03','RR/MM/DD'),1606994077,'110789329351029804629','하정원','jwha94@gmail.com','000-000-0000','46760',null,'문 앞에 놔주세요^^','부산 강서구 르노삼성대로 14 (신호동) 건물');
+Insert into ORDERS (ORDER_NUM,TOTALPRICE,APPLY_NUM,ORDER_STATUS,PG,ORDER_DATE,PAID_AT,MEMBER_ID,MEMBER_NAME,EMAIL,PHONE,ZIPNO,TIMESTAMP,DELIVERY_REQUEST,ADDRESS) values ('imp_937224977756',5600,null,'결제완료','kakaopay',to_date('20/12/04','RR/MM/DD'),1607049244,'110789329351029804629','하정원','jwha94@gmail.com','010-7610-9497','03753',null,'조심히 와주세요><','서울 서대문구 경기대로 9 (충정로3가) 빌딩');
+Insert into ORDERS (ORDER_NUM,TOTALPRICE,APPLY_NUM,ORDER_STATUS,PG,ORDER_DATE,PAID_AT,MEMBER_ID,MEMBER_NAME,EMAIL,PHONE,ZIPNO,TIMESTAMP,DELIVERY_REQUEST,ADDRESS) values ('imp_492369915555',9200,null,'결제완료','kakaopay',to_date('20/12/02','RR/MM/DD'),1606877402,'joy','전가영','duio0oiub@naver.com','01062790216','05613',null,'냐옹','서울 송파구 백제고분로33길 13-20 (석촌동) 403호');
+REM INSERTING into ORDERS_DETAIL
+SET DEFINE OFF;
+Insert into ORDERS_DETAIL (ORDER_NUM,PRODUCT_ID,QUANTITY,PRICE,SALE_PRICE,OPTION_NAME) values ('imp_022045772674','bread2',2,3200,0,'리얼 연유바게트');
+Insert into ORDERS_DETAIL (ORDER_NUM,PRODUCT_ID,QUANTITY,PRICE,SALE_PRICE,OPTION_NAME) values ('imp_022045772674','drink1',2,600,0,'라임 스파클링 500mL');
+Insert into ORDERS_DETAIL (ORDER_NUM,PRODUCT_ID,QUANTITY,PRICE,SALE_PRICE,OPTION_NAME) values ('imp_937224977756','vege2',1,2100,0,'파프리카2입 S');
+REM INSERTING into ORDERS_HISTORY
+SET DEFINE OFF;
+REM INSERTING into PRODUCT
+SET DEFINE OFF;
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('meat4','1++ 한우 안심 스테이크용','부드럽게 즐기는 본연의 풍미','1팩','200','냉장/종이포장','1_meat4.jpg','남도우애',1,'2_meat4.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('차돌박이','차돌박이','고소한 차돌박이 어떠세요?','180g','1인분','냉장','1_차돌박이.jpg','우리축산',1,'2_차돌박이.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('meat5','삼겹살','오늘 저녁 삼겹살 어떠세요?','1인분','180g','냉장','1_meat5.jpg','우리축산',1,'2_meat5.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('meat1','냉동 닭가슴살 4종','식감은 살리고 염도는 줄인','1개','옵션별 상이','냉동/종이포장','닭가슴살1.jpg','Better me',1,'닭가슴살2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('meat2','한돈 떡갈비','간편하게 즐기는 도톰한 떡갈비','1팩','120g','냉동/종이포장','떡갈비1.jpg','미트클레버',1,'떡갈비2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('meat3','1+ 한우 채끝 스테이크','스테이크용','1팩','300g','냉장/종이포장','스테이크1.jpg','태우한우',1,'스테이크2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('vege1','무농약 브로콜리 2종','속이 꽉 찬 무농약 브로콜리','옵션별 상이','옵션별 상이','냉장/종이포장','브로콜리1.jpg','신토불이',2,'브로콜리2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('vege2','파프리카 2종','아삭한 파프리카를 실속 있게','1팩','옵션별 상이','냉장/종이포장','파프리카1.jpg','신토불이',2,'파프리카2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('vege3','친환경 시금치','뽀빠이가 좋아하는 바로 그 채소','1봉지','200g','냉장/종이포장','시금치1.jpg','신토불이',2,'시금치2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('bread1','더티초코','빵 오 쇼콜라의 더욱 진한 달콤함','1개','90g','냉동/종이포장','더티초코1.jpg','아우어베이커리',3,'더티초코2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('bread2','리얼바게트2종','집에서 만나는 따끈한 바게트','1개','93g','냉동/종이포장','리얼바게트.jpg','맛의고수',3,'리얼바게트2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('bread3','마늘스틱','달달한 마늘 스프레드를 발라 구워낸','1박스','8개입/300g','냉장/종이포장','마늘스틱1.jpg','따순기미',3,'마늘스틱2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('bread4','소이모닝쌀빵','잔다리마을 전두부의 고소함을담은 모닝빵','1개','150g(5개입)','상온/종이포장','모닝빵1.jpg','바비 브레드',3,'모닝빵2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('bread5','모카빵','백앙금을 넣어 촉촉하고 고소한 빵','1개','394g','상온/종이포장','모카빵1.jpg','노아베이커리',3,'모카빵2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('bread6','반미 샌드위치 4종','든든하게 즐기는 베트남식 샌드위치','1개','품목별상이','냉장/종이포장','반미샌드위치1.jpg','벤탄마켓',3,'반미샌드위치2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('bread7','샌드위치 3종','과일을 넣어 상큼한 샌드위치','1개','180g','냉장/종이포장','샌드위치1.jpg','프룻밤',3,'샌드위치2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('bread8','샌드위치샐러드 박스 4종','알차게 꾸려진 런치 박스','1팩','제품별상이','냉장/종이포장','샌드위치샐러드1.jpg','쉐푸드',3,'샌드위치샐러드2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('bread9','스콘 2종','매력적인 담백함','1개','120g','상온/종이포장','스콘1.jpg','플레어비',3,'스콘2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('bread10','크림치즈 4종','집에서 즐기는 녹진한 그 맛','1병','200g','냉장/종이포장','크림치즈4종1.jpg','포비베이글',3,'크림치즈4종2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('fruit1','친환경 대추방울토마토','씹는 맛이 좋은 친환경 대추방울토마토','1팩','500g','냉장/종이포장','토마토1.jpg','우리농산',4,'토마토2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('fruit2','칠레산 블루베리 2종','싱그러움이 살아있는','1팩','옵션별 상이','냉장/종이포장','블루베리1.jpg','우리농산',4,'블루베리1.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('fruit3','자몽','속이 꽉찬 자몽을 더욱 합리적인 가격에','1과','320g 내외','냉장/종이포장','자몽1.jpg','우리농산',4,'자몽2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('drink1','라임 스파클링 2종','낱개/박스','1병/1박스','500mL/500mL*20개입','상온/종이포장','물1.jpg','빅토리아',5,'물2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('drink2','팜하우스 골드 밀크','유지방 4.5% 고함량으로 더욱 진한 우유의 맛','1개','1L','냉장/종이포장','팜하우스 골드 밀크1.jpg','폴스',5,'팜하우스 골드 밀크2.jpg');
+Insert into PRODUCT (PRODUCT_ID,PRODUCT_NAME,PRODUCT_DETAIL,SALES_UNIT,PRODUCT_SIZE,PACKING_TYPE,PRODUCT_IMAGE,SUPPLIER,PRODUCT_CATEGORY_NUM,PRODUCT_DETAIL_IMAGE) values ('drink3','태양의 식후비법W차','녹차, 우롱차, 홍차의 만남','1병','500mL','상온/종이포장','태양의 식후비법W차1.jpg','차차차',5,'태양의 식후비법W차2.jpg');
+REM INSERTING into PRODUCT_CATEGORY
+SET DEFINE OFF;
+Insert into PRODUCT_CATEGORY (PRODUCT_CATEGORY_NUM,PRODUCT_CATEGORY_NAME) values (4,'과일');
+Insert into PRODUCT_CATEGORY (PRODUCT_CATEGORY_NUM,PRODUCT_CATEGORY_NAME) values (1,'육류');
+Insert into PRODUCT_CATEGORY (PRODUCT_CATEGORY_NUM,PRODUCT_CATEGORY_NAME) values (2,'채소');
+Insert into PRODUCT_CATEGORY (PRODUCT_CATEGORY_NUM,PRODUCT_CATEGORY_NAME) values (3,'베이커리');
+Insert into PRODUCT_CATEGORY (PRODUCT_CATEGORY_NUM,PRODUCT_CATEGORY_NAME) values (5,'음료');
+REM INSERTING into PRODUCT_OPTION
+SET DEFINE OFF;
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('리얼 연유바게트',3200,1,'bread2');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('리얼 갈릭바게트',3200,1,'bread2');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('스파이시 치킨 반미 샌드위치',7500,1,'bread6');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('에그 반미 샌드위치',6900,1,'bread6');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('불고기 반미 샌드위치',7500,1,'bread6');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('참치마요 반미 샌드위치',7500,1,'bread6');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('플레인 스콘',3000,1,'bread9');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('베네치아 스콘',3800,1,'bread9');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('호두 크림치즈',9000,1,'bread10');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('토마토 크림치즈',9000,1,'bread10');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('블루베리 크림치즈',9000,1,'bread10');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('무화과 크림치즈',9000,1,'bread10');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('라임 스파클링 500mL',600,1,'drink1');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('라임 스파클링 500mL 1박스(20개)',11900,1,'drink1');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('칠레산 블루베리 125g',4800,1,'fruit2');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('칠레산 블루베리 310g',10800,1,'fruit2');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('무농약 브로콜리 1개',2900,1,'vege1');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('무농약 조각 브로콜리 150g',2900,1,'vege1');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('파프리카2입 S',2100,1,'vege2');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('파프리카2입 M',2500,1,'vege2');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('플레인 닭가슴살',1700,1,'meat1');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('허브 닭가슴살',1900,1,'meat1');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('페퍼 닭가슴살',1900,1,'meat1');
+Insert into PRODUCT_OPTION (OPTION_NAME,OPTION_PRICE,OPTION_QUANTITY,PRODUCT_ID) values ('버섯 닭가슴살',2200,1,'meat1');
+REM INSERTING into PRODUCT_QNA
+SET DEFINE OFF;
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (2,'bread4','a','ㄱㄱ','<p>ㄱㄱ</p>',null,3,to_date('20/12/02','RR/MM/DD'),0,0,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (3,'bread4','a','ㄴㄴㄴㄴㄴ','<p>ㄴㄴ</p>',null,3,to_date('20/12/02','RR/MM/DD'),0,0,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (4,'bread4','a','ㄷㄷ','<p>ㄷㄷ</p>',null,3,to_date('20/12/02','RR/MM/DD'),0,0,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (1,'bread4','a','모닝모닝 점심 머먹지ㅎㅎ 흐규규....','<p>모닝스~</p>','망고1.jpg',3,to_date('20/12/02','RR/MM/DD'),0,0,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (12,'bread10','admin','zz','<p>zz</p>',null,3,to_date('20/12/03','RR/MM/DD'),0,7,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (13,'bread10','admin','aa답...','<p>aa답..</p>','망고1.jpg',3,to_date('20/12/03','RR/MM/DD'),0,7,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (11,'bread4','admin','ㄴㄴㄴ답','<p>ㄴㄴㄴ답</p>','샤인머스캣1.jpg',3,to_date('20/12/03','RR/MM/DD'),0,3,'샤인머스캣2.jpg',null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (32,'bread5','admin','안녕하세요. 답변','<p>안녕하세요. 답변<br></p>',null,3,to_date('20/12/04','RR/MM/DD'),0,20,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (14,'bread10','a','ff','<p>ff</p>',null,3,to_date('20/12/03','RR/MM/DD'),0,0,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (33,'bread10','admin','ff답','<p>ff답</p>',null,3,to_date('20/12/04','RR/MM/DD'),0,14,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (16,'bread10','admin','a답..admin. ','<p>a답..admin.&nbsp;<br></p>',null,3,to_date('20/12/03','RR/MM/DD'),0,15,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (18,'bread4','admin','문의 답 수정 수정 ㄱㄱ','<p>답변드립니다. 수정 수정ㄱㄱ</p>','망고1.jpg',3,to_date('20/12/03','RR/MM/DD'),0,17,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (19,'bread4','admin','와우내tttttwwwwwwwww','<p>wwwwwwwwww</p>','샤인머스캣2.jpg',3,to_date('20/12/03','RR/MM/DD'),0,17,'아보카도 퓨레1.jpg','아보카도 퓨레2.jpg');
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (20,'bread5','a','안녕하세요','빵 먹고 싶습니다',null,3,to_date('20/12/03','RR/MM/DD'),0,0,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (21,'bread4','admin','인서트되라얍77','<p>ad</p>',null,3,to_date('20/12/03','RR/MM/DD'),0,17,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (34,'bread4','admin','ㄷㄷ답','<p>ㄷㄷ답<br></p>',null,3,to_date('20/12/04','RR/MM/DD'),0,4,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (25,'bread5','admin','ㅠㅠ 오늘 다 할수 있을까요... ','<p>ㅠㅠ 오늘 다 할수 있을까요...&nbsp;<br></p>',null,3,to_date('20/12/03','RR/MM/DD'),0,24,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (6,'bread4','admin','컬리2','<p>컬리2<br></p>',null,3,to_date('20/12/02','RR/MM/DD'),0,3,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (8,'bread10','admin','컬리호이','<p>컬리호이<br></p>',null,3,to_date('20/12/02','RR/MM/DD'),0,7,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (26,'bread5','admin','z','<p>z</p>',null,3,to_date('20/12/03','RR/MM/DD'),0,24,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (5,'bread4','admin','컬리임당','<p>컬리임당<br></p>',null,3,to_date('20/12/02','RR/MM/DD'),0,4,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (29,'bread10','a','문의드려요. 수정하기','<p>문의드립니다. 수정하기</p>','멜론2.jpg',3,to_date('20/12/03','RR/MM/DD'),0,0,'배2.jpg','아보카도2.jpg');
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (35,'bread4','admin','ee답','<p>ㄷee답</p>',null,3,to_date('20/12/04','RR/MM/DD'),0,4,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (28,'bread10','admin','답변드립니다.','<p>답변드려요.</p>','반건시2.jpg',3,to_date('20/12/03','RR/MM/DD'),0,27,null,null);
+Insert into PRODUCT_QNA (PRODUCT_QNA_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,QNA_CATEGORY_NUM,REG_DATE,VIEWS,PARENT_NUM,IMAGE2,IMAGE3) values (31,'bread10','admin','답변2 수정','<p>답변2 수정</p>','산딸기2.jpg',3,to_date('20/12/03','RR/MM/DD'),0,29,null,null);
+REM INSERTING into QNA_CATEGORY
+SET DEFINE OFF;
+Insert into QNA_CATEGORY (QNA_CATEGORY_NUM,QNA_CATEGORY_NAME) values (3,'상품');
+Insert into QNA_CATEGORY (QNA_CATEGORY_NUM,QNA_CATEGORY_NAME) values (1,'배송지연/불만');
+Insert into QNA_CATEGORY (QNA_CATEGORY_NUM,QNA_CATEGORY_NAME) values (2,'반품문의');
+Insert into QNA_CATEGORY (QNA_CATEGORY_NUM,QNA_CATEGORY_NAME) values (4,'환불문의');
+Insert into QNA_CATEGORY (QNA_CATEGORY_NUM,QNA_CATEGORY_NAME) values (5,'주문결제문의');
+Insert into QNA_CATEGORY (QNA_CATEGORY_NUM,QNA_CATEGORY_NAME) values (6,'회원정보문의');
+Insert into QNA_CATEGORY (QNA_CATEGORY_NUM,QNA_CATEGORY_NAME) values (7,'교환문의');
+Insert into QNA_CATEGORY (QNA_CATEGORY_NUM,QNA_CATEGORY_NAME) values (8,'기타문의');
+REM INSERTING into REVIEW
+SET DEFINE OFF;
+Insert into REVIEW (REVIEW_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,VIEWS,RATED,REG_DATE,IMAGE2,IMAGE3) values (3,'bread4','a','cc','<p>cc</p>',null,null,5,to_date('20/12/02','RR/MM/DD'),null,null);
+Insert into REVIEW (REVIEW_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,VIEWS,RATED,REG_DATE,IMAGE2,IMAGE3) values (1,'bread4','a','aa','<p>aa</p>',null,null,5,to_date('20/12/02','RR/MM/DD'),null,null);
+Insert into REVIEW (REVIEW_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,VIEWS,RATED,REG_DATE,IMAGE2,IMAGE3) values (2,'bread4','a','bb','<p>bb</p>',null,null,5,to_date('20/12/02','RR/MM/DD'),null,null);
+Insert into REVIEW (REVIEW_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,VIEWS,RATED,REG_DATE,IMAGE2,IMAGE3) values (4,'bread4','a','dd','<p>dd</p>',null,null,5,to_date('20/12/02','RR/MM/DD'),null,null);
+Insert into REVIEW (REVIEW_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,VIEWS,RATED,REG_DATE,IMAGE2,IMAGE3) values (5,'bread4','a','ee','<p>ee</p>',null,null,5,to_date('20/12/02','RR/MM/DD'),null,null);
+Insert into REVIEW (REVIEW_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,VIEWS,RATED,REG_DATE,IMAGE2,IMAGE3) values (6,'bread10','s','ss','<p>ss</p>',null,null,5,to_date('20/12/03','RR/MM/DD'),null,null);
+Insert into REVIEW (REVIEW_NUM,PRODUCT_ID,MEMBER_ID,TITLE,CONTENTS,IMAGE1,VIEWS,RATED,REG_DATE,IMAGE2,IMAGE3) values (7,'bread10','s','맛있습니다.','<p>JMT</p>',null,null,5,to_date('20/12/03','RR/MM/DD'),null,null);
+REM INSERTING into SHIPPING
+SET DEFINE OFF;
+Insert into SHIPPING (MEMBER_ID,ZIPNO,LOAD_ADDRESS,JIBUN_ADDRESS,REST_ADDRESS) values ('a','06110','서울 강남구 학동로 지하 102 (논현동)','서울 관악구 신림동 1735-1','성두맨션');
+REM INSERTING into TMP
+SET DEFINE OFF;
+Insert into TMP (IDX_TMP,NAME) values (1,'tmptmp');
+Insert into TMP (IDX_TMP,NAME) values (2,'tmptmp');
+Insert into TMP (IDX_TMP,NAME) values (4,'tmptmp');
+Insert into TMP (IDX_TMP,NAME) values (5,'tmptmp');
+Insert into TMP (IDX_TMP,NAME) values (7,'tmptmp');
+--------------------------------------------------------
+--  DDL for Index FAQ_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FAQ_PK" ON "FAQ" ("FAQ_NUM") 
+  ;
+--------------------------------------------------------
+--  DDL for Index ITEM_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "ITEM_PK" ON "ITEM" ("ITEM_NUM") 
+  ;
+--------------------------------------------------------
+--  DDL for Index MEMBER_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "MEMBER_PK" ON "MEMBER" ("MEMBER_ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index MEMBER_DETAIL_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "MEMBER_DETAIL_PK" ON "MEMBER_DETAIL" ("MEMBER_ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index MEMBER_LOGIN_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "MEMBER_LOGIN_PK" ON "MEMBER_LOGIN" ("MEMBER_ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index MEMBER_QNA_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "MEMBER_QNA_PK" ON "MEMBER_QNA" ("MEMBER_QNA_NUM") 
+  ;
+--------------------------------------------------------
+--  DDL for Index NOTICE_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "NOTICE_PK" ON "NOTICE" ("NOTICE_NUM") 
+  ;
+--------------------------------------------------------
+--  DDL for Index ORDERS_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "ORDERS_PK" ON "ORDERS" ("ORDER_NUM") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PRODUCT_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PRODUCT_PK" ON "PRODUCT" ("PRODUCT_ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PRODUCT_CATEGORY_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PRODUCT_CATEGORY_PK" ON "PRODUCT_CATEGORY" ("PRODUCT_CATEGORY_NUM") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PRODUCT_QNA_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PRODUCT_QNA_PK" ON "PRODUCT_QNA" ("PRODUCT_QNA_NUM") 
+  ;
+--------------------------------------------------------
+--  DDL for Index QNA_CATEGORY_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "QNA_CATEGORY_PK" ON "QNA_CATEGORY" ("QNA_CATEGORY_NUM") 
+  ;
+--------------------------------------------------------
+--  DDL for Index REVIEW_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "REVIEW_PK" ON "REVIEW" ("REVIEW_NUM") 
+  ;
+--------------------------------------------------------
+--  Constraints for Table CART
+--------------------------------------------------------
+
+  ALTER TABLE "CART" MODIFY ("CART_ID" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table FAQ
+--------------------------------------------------------
+
+  ALTER TABLE "FAQ" ADD CONSTRAINT "FAQ_PK" PRIMARY KEY ("FAQ_NUM") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table ITEM
+--------------------------------------------------------
+
+  ALTER TABLE "ITEM" ADD CONSTRAINT "ITEM_PK" PRIMARY KEY ("ITEM_NUM") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table MEMBER
+--------------------------------------------------------
+
+  ALTER TABLE "MEMBER" ADD CONSTRAINT "MEMBER_PK" PRIMARY KEY ("MEMBER_ID") ENABLE;
+  ALTER TABLE "MEMBER" MODIFY ("MEMBER_ID" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table MEMBER_DETAIL
+--------------------------------------------------------
+
+  ALTER TABLE "MEMBER_DETAIL" ADD CONSTRAINT "MEMBER_DETAIL_PK" PRIMARY KEY ("MEMBER_ID") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table MEMBER_LOGIN
+--------------------------------------------------------
+
+  ALTER TABLE "MEMBER_LOGIN" ADD CONSTRAINT "MEMBER_LOGIN_PK" PRIMARY KEY ("MEMBER_ID") ENABLE;
+  ALTER TABLE "MEMBER_LOGIN" MODIFY ("PASSWORD" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table MEMBER_QNA
+--------------------------------------------------------
+
+  ALTER TABLE "MEMBER_QNA" ADD CONSTRAINT "MEMBER_QNA_PK" PRIMARY KEY ("MEMBER_QNA_NUM") ENABLE;
+  ALTER TABLE "MEMBER_QNA" MODIFY ("REG_DATE" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table NOTICE
+--------------------------------------------------------
+
+  ALTER TABLE "NOTICE" ADD CONSTRAINT "NOTICE_PK" PRIMARY KEY ("NOTICE_NUM") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table ORDERS
+--------------------------------------------------------
+
+  ALTER TABLE "ORDERS" ADD CONSTRAINT "ORDERS_PK" PRIMARY KEY ("ORDER_NUM") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table PRODUCT
+--------------------------------------------------------
+
+  ALTER TABLE "PRODUCT" ADD CONSTRAINT "PRODUCT_PK" PRIMARY KEY ("PRODUCT_ID") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table PRODUCT_CATEGORY
+--------------------------------------------------------
+
+  ALTER TABLE "PRODUCT_CATEGORY" ADD CONSTRAINT "PRODUCT_CATEGORY_PK" PRIMARY KEY ("PRODUCT_CATEGORY_NUM") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table PRODUCT_QNA
+--------------------------------------------------------
+
+  ALTER TABLE "PRODUCT_QNA" ADD CONSTRAINT "PRODUCT_QNA_PK" PRIMARY KEY ("PRODUCT_QNA_NUM") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table QNA_CATEGORY
+--------------------------------------------------------
+
+  ALTER TABLE "QNA_CATEGORY" ADD CONSTRAINT "QNA_CATEGORY_PK" PRIMARY KEY ("QNA_CATEGORY_NUM") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table REVIEW
+--------------------------------------------------------
+
+  ALTER TABLE "REVIEW" ADD CONSTRAINT "REVIEW_PK" PRIMARY KEY ("REVIEW_NUM") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table SHIPPING
+--------------------------------------------------------
+
+  ALTER TABLE "SHIPPING" MODIFY ("MEMBER_ID" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Ref Constraints for Table FAQ
+--------------------------------------------------------
+
+  ALTER TABLE "FAQ" ADD CONSTRAINT "FK_FAQ_QNA_CATEGORY_NUM_QNA_CA" FOREIGN KEY ("QNA_CATEGORY_NUM")
+	  REFERENCES "QNA_CATEGORY" ("QNA_CATEGORY_NUM") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table ITEM
+--------------------------------------------------------
+
+  ALTER TABLE "ITEM" ADD CONSTRAINT "ITEM_PRODUCT_ID_FK" FOREIGN KEY ("PRODUCT_ID")
+	  REFERENCES "PRODUCT" ("PRODUCT_ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table MEMBER_QNA
+--------------------------------------------------------
+
+  ALTER TABLE "MEMBER_QNA" ADD CONSTRAINT "FK_MEMBER_QNA_QNA_CATEGORY_NUM" FOREIGN KEY ("QNA_CATEGORY_NUM")
+	  REFERENCES "QNA_CATEGORY" ("QNA_CATEGORY_NUM") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table MYLIST
+--------------------------------------------------------
+
+  ALTER TABLE "MYLIST" ADD CONSTRAINT "MYLIST_PRODUCT_ID_FK" FOREIGN KEY ("PRODUCT_ID")
+	  REFERENCES "PRODUCT" ("PRODUCT_ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table ORDERS
+--------------------------------------------------------
+
+  ALTER TABLE "ORDERS" ADD CONSTRAINT "ORDERS_MEMBER_ID_FK" FOREIGN KEY ("MEMBER_ID")
+	  REFERENCES "MEMBER" ("MEMBER_ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table ORDERS_DETAIL
+--------------------------------------------------------
+
+  ALTER TABLE "ORDERS_DETAIL" ADD CONSTRAINT "FK_ORDERS_DETAIL_ORDER_NUM_ORD" FOREIGN KEY ("ORDER_NUM")
+	  REFERENCES "ORDERS" ("ORDER_NUM") ENABLE;
+  ALTER TABLE "ORDERS_DETAIL" ADD CONSTRAINT "FK_ORDERS_DETAIL_PRODUCT_ID_PR" FOREIGN KEY ("PRODUCT_ID")
+	  REFERENCES "PRODUCT" ("PRODUCT_ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table PRODUCT
+--------------------------------------------------------
+
+  ALTER TABLE "PRODUCT" ADD CONSTRAINT "FK_PRODUCT_PRODUCT_CATEGORY_NU" FOREIGN KEY ("PRODUCT_CATEGORY_NUM")
+	  REFERENCES "PRODUCT_CATEGORY" ("PRODUCT_CATEGORY_NUM") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table PRODUCT_OPTION
+--------------------------------------------------------
+
+  ALTER TABLE "PRODUCT_OPTION" ADD CONSTRAINT "PRODUCT_OPTION_PRODUCT_ID_FK" FOREIGN KEY ("PRODUCT_ID")
+	  REFERENCES "PRODUCT" ("PRODUCT_ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table PRODUCT_QNA
+--------------------------------------------------------
+
+  ALTER TABLE "PRODUCT_QNA" ADD CONSTRAINT "FK_PRODUCT_QNA_PRODUCT_ID_PROD" FOREIGN KEY ("PRODUCT_ID")
+	  REFERENCES "PRODUCT" ("PRODUCT_ID") ENABLE;
+  ALTER TABLE "PRODUCT_QNA" ADD CONSTRAINT "FK_PRODUCT_QNA_QNA_CATEGORY_NU" FOREIGN KEY ("QNA_CATEGORY_NUM")
+	  REFERENCES "QNA_CATEGORY" ("QNA_CATEGORY_NUM") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table REVIEW
+--------------------------------------------------------
+
+  ALTER TABLE "REVIEW" ADD CONSTRAINT "FK_REVIEW_PRODUCT_ID_PRODUCT_P" FOREIGN KEY ("PRODUCT_ID")
+	  REFERENCES "PRODUCT" ("PRODUCT_ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table SHIPPING
+--------------------------------------------------------
+
+  ALTER TABLE "SHIPPING" ADD CONSTRAINT "FK_SHIPPING_MEMBER_ID_MEMBER_M" FOREIGN KEY ("MEMBER_ID")
+	  REFERENCES "MEMBER" ("MEMBER_ID") ENABLE;

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mappers.order">
+
+	<resultMap id="orderResult" type="orderVO"> 
+		<result property="order_num" column="order_num" />
+		<result property="totalPrice" column="totalPrice" />
+		<result property="apply_num" column="apply_num" />
+		<result property="order_status" column="order_status" />
+		<result property="pg" column="pg" />
+		<result property="paid_at" column="paid_at" />
+		<result property="member_id" column="member_id" /> 
+		<result property="member_name" column="member_name" />
+		<result property="email" column="email" />
+		<result property="phone" column="phone" />
+		<result property="address" column="address" />
+		<result property="zipNo" column="zipNo" />
+		<result property="order_date" column="order_date" />
+		<result property="delivery_request" column="delivery_request" />
+	</resultMap>	
+	
+
+<!-- 주문 입력 -->
+	<insert id="insertNewOrder" parameterType="orderVO">
+		<![CDATA[
+			insert into orders(order_num,
+								totalPrice,
+								apply_num,
+								order_status,
+								pg,
+								paid_at,
+								member_id,
+								member_name,
+								email,
+								phone,
+								address,
+								zipNo,
+								delivery_request) values(
+								#{order_num},
+								#{totalPrice},
+								#{apply_num},
+								#{order_status},
+								#{pg},
+								#{paid_at},
+								#{member_id},
+								#{member_name},
+								#{email},
+								#{phone},
+								#{address},  
+								#{zipNo},
+								#{delivery_request})
+								   ]]>
+		
+	</insert>
+	
+	<insert id="insertOrderDetail" parameterType="list">
+		
+		<foreach collection="list" item="item" index="index"
+		open="INSERT ALL " separator=" " close="SELECT * FROM DUAL ">
+		 INTO orders_detail(order_num,product_id, price, quantity, sale_price, option_name)
+		 VALUES (#{item.order_num},#{item.product_id},#{item.price},#{item.quantity},#{item.sale_price}, #{item.option_name})
+		</foreach>
+	
+	</insert>
+	
+	<!-- 구입한 만큼 재고 내리고 판매량 증가 -->
+	<update id="downStock" parameterType="list">
+	<foreach collection="list" item="item" index="index"
+	separator=";" open="DECLARE BEGIN" close="; END;" >
+		update item set stock = stock-#{item.quantity}, sales = sales+#{item.quantity} where product_id = #{item.product_id}
+	</foreach>
+	</update>
+	
+	<!-- 내 주문 조회 -->
+	<select id="selectOrderList" resultMap="orderResult"
+		parameterType="java.util.HashMap">
+	 <![CDATA[
+		select * from orders
+		where member_id = #{member_id}
+		]]>
+			<choose>
+			<when test="period==1">
+			AND ORDER_DATE >= TO_CHAR(SYSDATE-7,'YYYYMMDD')			
+			</when>
+			<when test="period==2">
+			AND ORDER_DATE >= TO_CHAR(SYSDATE-30, 'YYYYMMDD')
+			</when>			
+			</choose>
+			<choose>
+			<when test ="status==1">
+			AND ORDER_STATUS = '결제완료'			
+			</when>
+			<when test ="status==2">
+			AND ORDER_STATUS = '배송완료'			
+			</when>
+			<when test ="status==3">
+			AND ORDER_STATUS = '주문취소'			
+			</when>			
+			</choose>		
+			order by order_date desc			
+	</select>
+	
+	<!-- 관리자용 주문 조회 -->
+		<select id="selectAdminOrderList" resultMap="orderResult"
+		parameterType="java.util.HashMap">
+	 <![CDATA[
+		select * from orders
+		]]>
+		<where>
+			<choose>
+			<when test="period==1">
+			AND ORDER_DATE >= TO_CHAR(SYSDATE-7,'YYYYMMDD')			
+			</when>
+			<when test="period==2">
+			AND ORDER_DATE >= TO_CHAR(SYSDATE-30, 'YYYYMMDD')
+			</when>			
+			</choose>
+			<choose>
+			<when test ="status==1">
+			AND ORDER_STATUS = '결제완료'			
+			</when>
+			<when test ="status==2">
+			AND ORDER_STATUS = '배송완료'			
+			</when>
+			<when test ="status==3">
+			AND ORDER_STATUS = '주문취소'			
+			</when>			
+			</choose>		
+			</where>
+			order by order_date desc			
+	</select>
+	
+	<!-- 주문상세 조회 -->
+	<select id="selectOrderDetail" resultType="orderVO" parameterType="String">
+	 <![CDATA[
+	 select * from orders
+	 	where order_num = #{order_num}
+	 ]]>
+	</select>
+	
+	<select id="selectOrderDetailProduct" resultMap="mappers.cart.productResult" parameterType="String">
+		 <![CDATA[
+		select x.*, o.option_name, o.option_price
+			from  product_option o,	
+				(select p.*, d.order_num, d.quantity, d.option_name, d.price, d.sale_price
+						from product p, orders_detail d 
+						where p.product_id = d.product_id
+            				and d.order_num=#{order_num} ) x
+				where o.option_name= x.option_name
+	 ]]>
+	</select>
+	
+	<!-- 주문상태 변경 -->
+	<update id="changeOrderStatus" parameterType="java.util.HashMap">
+	<![CDATA[
+		UPDATE ORDERS SET ORDER_STATUS=#{order_status} WHERE ORDER_NUM = #{order_num}		
+	]]>
+	</update>
+	
+	
+</mapper>

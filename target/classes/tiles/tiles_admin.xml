@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<!-- 관리자 기본 레이아웃 설정 -->
+	<definition name="adminLayout"	
+		template="/WEB-INF/views/common/admin/admin-layout.jsp">
+		<put-attribute name="title" value="쩝쩝박사 :: 관리자페이지" />
+		<put-attribute name="header" value="/WEB-INF/views/common/admin/admin-header.jsp" />
+		<put-attribute name="aside" value="/WEB-INF/views/common/admin/admin-aside.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/admin/admin-footer.jsp" />
+	</definition>
+
+	<!-- 관리자 메인(대시보드) 레이아웃 -->
+	  <definition name="/admin/main" extends="adminLayout">
+	  <put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-mainTag.jsp"/>
+         <put-attribute name="body" value="/WEB-INF/views/admin/admin-main.jsp" />
+      </definition>  
+      
+      <!-- 관리자 회원목록 레이아웃 -->
+	  <definition name="/admin/member/memberList" extends="adminLayout">
+	  	<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+         <put-attribute name="body" value="/WEB-INF/views/admin/member/adminMemberList.jsp" />
+      </definition>  
+      
+      <!-- 관리자 회원상세 레이아웃 -->
+      <definition name="/admin/member/memberDetail" extends="adminLayout">
+      	 <put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+         <put-attribute name="body" value="/WEB-INF/views/admin/member/adminMemberDetail.jsp" />
+      </definition>
+      
+      <!-- 상연 상품 -->
+      <definition name="/admin/productAdd" extends="adminLayout">
+      	<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+      	<put-attribute name="body" value="/WEB-INF/views/admin/goods/productAdd.jsp"/>
+      </definition>
+      
+      <definition name="/admin/productList" extends="adminLayout">
+      	<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+      	<put-attribute name="body" value="/WEB-INF/views/admin/goods/productList.jsp"/>
+      </definition>
+      
+      <definition name="/admin/productUpdate" extends="adminLayout">
+      	<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+      	<put-attribute name="body" value="/WEB-INF/views/admin/goods/productUpdate.jsp"/>
+      </definition>
+      
+      <definition name="/admin/productOption" extends="adminLayout">
+      	<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+      	<put-attribute name="body" value="/WEB-INF/views/admin/goods/productOption.jsp"/>
+      </definition>
+      
+      <definition name="/admin/search" extends="adminLayout">
+      	<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+      	<put-attribute name="body" value="/WEB-INF/views/admin/goods/search.jsp"/>
+      </definition>  
+      
+      <!-- joy.관리자 게시판 -->
+      <!-- 공지사항 -->
+      <definition name="/adminboard/noticeList" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/admin-noticeList.jsp" />
+      </definition>
+      
+      <!-- FAQ -->
+      <definition name="/adminboard/faqList" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/admin-FAQList.jsp" />
+      </definition>
+      
+      <!-- memberQNA -->
+      <definition name="/adminboard/memberQnaList" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/admin-memberQnaList.jsp" />
+      </definition>
+      
+      <!-- Insert -->
+      <definition name="/adminboard/noticeInsert" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/admin-noticeInsert.jsp" />
+      </definition>
+      
+      <definition name="/adminboard/faqInsert" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/admin-faqInsert.jsp" />
+      </definition>
+      
+      <definition name="/adminboard/memqAdminInsert" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/admin-memqAdminInsert.jsp" />
+      </definition>
+      
+      <!-- Update -->
+      <definition name="/adminboard/noticeUpdate" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/admin-noticeUpdate.jsp" />
+      </definition>
+      
+      <definition name="/adminboard/faqUpdate" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/admin-faqUpdate.jsp" />
+      </definition>
+      
+      <definition name="/adminboard/memqAdminUpdate" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/admin-memqAdminUpdate.jsp" />
+      </definition>
+      
+      <!-- 게시글보기 -->
+      <definition name="/adminboard/notice" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/admin-notice.jsp" />
+      </definition>
+      
+      <definition name="/adminboard/faq" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/admin-faq.jsp" />
+      </definition>
+      
+      <definition name="/adminboard/memQ" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/admin-memQ.jsp" />
+      </definition>
+      
+      <!-- joy.관리자 상품카테고리 crud -->
+      
+      <definition name="/adminboard/productCategoryList" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/productCategoryList.jsp" />
+      </definition>
+      
+      <!-- 관리자 주문목록 -->
+            <definition name="/admin/order/orders" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/orders/admin-orders.jsp" />
+      </definition>
+      
+            <definition name="/admin/order/detail" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/orders/admin-order-detail.jsp" />
+      </definition>
+      
+      <!-- 아진, 관리자 상품문의 -->
+      <definition name="/admin/productQnaList" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/productQnaList.jsp" />
+      </definition>
+      
+      <definition name="/admin/productQnaForm" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/productQnaForm.jsp" />
+      </definition>
+      
+      <definition name="/admin/productQnaReForm" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/productQnaReForm.jsp" />
+      </definition>
+      
+      <definition name="/admin/productQnaReUpdateForm" extends="adminLayout">
+		<put-attribute name="tag" value="/WEB-INF/views/common/admin/tag/admin-boardTag.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/admin/board/productQnaReUpdateForm.jsp" />
+      </definition>
+</tiles-definitions>

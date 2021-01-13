@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mappers.product_qna">
+
+	<resultMap id="product_qnaResult" type="product_qnaVO">
+		<result property="product_qna_num" column="product_qna_num" />  
+		<result property="product_id" column="product_id" />
+		<result property="member_id" column="member_id" />
+		<result property="title" column="title" />
+		<result property="contents" column="contents" />
+		<result property="image1" column="image1" />
+		<result property="qna_category_num" column="qna_category_num" />
+		<result property="reg_date" column="reg_date" />
+		<result property="views" column="views"/>
+		<result property="parent_num" column="parent_num" />
+		<result property="rowNum" column="R_NUM"/>
+		<result property="image2" column="image2" />
+		<result property="image3" column="image3" />
+	</resultMap>	
+	
+	<!-- 아진 -->
+	<select id="selectProductQna" parameterType="java.util.HashMap" resultMap="product_qnaResult"   >
+        <![CDATA[
+        	SELECT  P.*
+			FROM ( 
+        			SELECT ROWNUM R_NUM, level, Q.*
+        			FROM PRODUCt_QNA Q
+		]]>
+			       <where>
+			       	<if test="product_id != null">
+			       		PRODUCT_ID = #{product_id}
+			       	</if>
+			       </where>
+			        START WITH parent_num=0
+			        CONNECT BY PRIOR product_qna_num = parent_num
+			        ORDER SIBLINGS BY product_qna_num DESC
+			    ) P
+			WHERE R_NUM BETWEEN #{begin} and #{end}
+	  	
+	</select>
+	
+	<select id="totalCount" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM product_qna
+		<where>
+			<if test="product_id != null">
+				product_id = #{product_id}	
+			</if>
+		</where>
+	
+	</select>
+	
+	<select id="selectQnaNo" resultType="int">
+		SELECT nvl(max(product_qna_num),0) from product_qna
+	</select>
+	
+	<insert id="insertBoardQna" parameterType="java.util.HashMap">
+		INSERT INTO PRODUCT_QNA VALUES ( 
+			#{product_qna_num}, #{product_id}, #{member_id},
+			#{title}, #{contents},#{image1}, 3,
+			sysdate, 0, #{parent_num} , #{image2} , #{image3}
+		)
+	</insert>
+	
+	<!-- 상품문의 게시글에 대한 정보 가져오기 -->
+	<select id="selectQna" parameterType="int" resultType="product_qnaVO">
+	  SELECT * FROM PRODUCT_QNA WHERE product_qna_num = #{product_qna_num}
+	</select>
+	
+	<!-- 상품문의 게시판 업데이트 -->
+	<update id="updateBoardQna" parameterType="java.util.HashMap">
+		UPDATE product_qna 
+		SET 
+		TITLE = #{title}, CONTENTS= #{contents}
+		<choose>
+			<when test="image1 != null">
+				, image1 = #{image1}
+			</when>
+		</choose>
+		<choose>
+			<when test="image2 != null">
+				, image2 = #{image2}
+			</when>
+		</choose>
+		<choose>
+			<when test="image3 != null">
+				, image3 = #{image3}
+			</when>
+		</choose>
+		WHERE PRODUCT_QNA_NUM = #{product_qna_num}
+	</update>
+	
+	<!-- 상품문의 게시판 삭제 -->
+	<delete id="deleteBoardQna" parameterType="int">
+		DELETE FROM product_qna
+		WHERE product_qna_num = #{product_qna_num}
+	</delete>
+</mapper>

@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.board">
+<!-- **************************************************** 전체 목록, 검색 목록 **************************************************** -->
+	
+	<!-- 공지사항 -->
+	<select id="getNoticeList" parameterType="hashmap" resultType="boardVO">
+		SELECT * 
+		FROM (SELECT ROWNUM R_NUM, N.*, 
+					 LEAD(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS NEXT_NO, 
+					 LAG(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS PRE_NO 
+			  FROM (SELECT * 
+			  		FROM NOTICE 
+			  		ORDER BY NOTICE_NUM DESC 
+			  		) N 
+			  ) 
+		WHERE R_NUM BETWEEN #{paging.begin} AND #{paging.end}
+	</select>
+	
+	<select id="getSearchNoticeList" parameterType="hashmap" resultType="boardVO">
+		SELECT * 
+		FROM (SELECT ROWNUM R_NUM, N.*, 
+					 LEAD(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS NEXT_NO, 
+					 LAG(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS PRE_NO 
+			  FROM (SELECT * 
+			  		FROM NOTICE 
+					<where>
+						<if test="vo.searchKeyword != ''">
+							<if test="vo.searchCondition == 'title'">
+								AND TITLE LIKE '%' || #{vo.searchKeyword} || '%'
+							</if>
+							<if test="vo.searchCondition == 'contents'">
+								AND CONTENTS LIKE '%' || #{vo.searchKeyword} || '%'
+							</if>
+						AND reg_date BETWEEN TO_DATE(#{vo.dateBegin}, 'YY/MM/DD') 
+										 AND TO_DATE(#{vo.dateEnd}, 'YY/MM/DD')+1 
+						</if>
+						<if test="vo.searchKeyword == ''">
+						AND reg_date BETWEEN TO_DATE(#{vo.dateBegin}, 'YY/MM/DD') 
+										 AND TO_DATE(#{vo.dateEnd}, 'YY/MM/DD')+1 
+						</if>
+					</where>
+			  		ORDER BY NOTICE_NUM DESC 
+			  		) N 
+			  ) 
+		WHERE R_NUM BETWEEN #{paging.begin} AND #{paging.end}
+	</select>
+	
+	<!-- FAQ -->
+	<select id="getFAQList" parameterType="hashmap" resultType="boardVO">
+		SELECT * 
+		FROM (SELECT ROWNUM R_NUM, A.*, 
+					 LEAD(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS NEXT_NO, 
+					 LAG(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS PRE_NO 
+			  FROM (SELECT F.FAQ_NUM, Q.QNA_CATEGORY_NAME, F.TITLE, F.CONTENTS  
+			  		FROM FAQ F, QNA_CATEGORY Q 
+					WHERE f.qna_category_num = q.qna_category_num 
+					ORDER BY f.faq_num DESC) A) 
+		WHERE R_NUM BETWEEN #{paging.begin} AND #{paging.end}
+	</select>
+	
+	<select id="getSearchFAQList" parameterType="hashmap" resultType="boardVO">
+		SELECT * 
+		FROM (SELECT ROWNUM R_NUM, A.*, 
+					 LEAD(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS NEXT_NO, 
+					 LAG(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS PRE_NO 
+			  FROM (SELECT F.FAQ_NUM, Q.QNA_CATEGORY_NAME, F.TITLE, F.CONTENTS  
+			  		FROM FAQ F, QNA_CATEGORY Q 
+					WHERE f.qna_category_num = q.qna_category_num
+					<if test="vo.searchCondition == 'qna_category_name'">
+						AND Q.qna_category_name LIKE '%' || #{vo.searchKeyword} || '%'
+					</if>
+					<if test="vo.searchCondition == 'title'">
+						AND TITLE LIKE '%' || #{vo.searchKeyword} || '%'
+					</if>
+					<if test="vo.searchCondition == 'contents'">
+						AND CONTENTS LIKE '%' || #{vo.searchKeyword} || '%'
+					</if>
+					ORDER BY f.faq_num DESC) A) 
+		WHERE R_NUM BETWEEN #{paging.begin} AND #{paging.end}
+	</select>
+	
+	<!-- 1:1 문의(관리자용) 전체 -->
+	<select id="getMemQListAll" parameterType="hashmap" resultType="boardVO">
+		SELECT * 
+		FROM 
+    		(SELECT ROWNUM R_NUM, A.*, LEAD(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS NEXT_NO, 
+            LAG(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS PRE_NO 
+     		FROM 
+    		    (SELECT member_qna_num, parent_num, title, contents, image, qna_category_name, 
+				order_num, member_id, email, phone, reg_date 
+				FROM MEMBER_QNA Q, QNA_CATEGORY C 
+				WHERE Q.qna_category_num = C.qna_category_num 
+         		START WITH parent_num = 0 
+      		    CONNECT BY PRIOR member_qna_num = parent_num 
+     		    ORDER SIBLINGS BY member_qna_num DESC) A)
+		WHERE R_NUM BETWEEN #{paging.begin} AND #{paging.end}
+	</select>
+	
+	<select id="getSearchMemQListAll" parameterType="hashmap" resultType="boardVO">
+		SELECT * 
+		FROM 
+    		(SELECT ROWNUM R_NUM, A.*, LEAD(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS NEXT_NO, 
+            LAG(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS PRE_NO 
+     		FROM 
+    		    (SELECT member_qna_num, parent_num, title, contents, image, qna_category_name, 
+				order_num, member_id, email, phone, reg_date 
+				FROM MEMBER_QNA Q, QNA_CATEGORY C 
+				WHERE Q.qna_category_num = C.qna_category_num 
+							<if test="vo.searchCondition == 'title'">
+								AND q.TITLE LIKE '%' || #{vo.searchKeyword} || '%'
+							</if>
+							<if test="vo.searchCondition == 'contents'">
+								AND q.CONTENTS LIKE '%' || #{vo.searchKeyword} || '%'
+							</if>
+							<if test="vo.searchCondition == 'member_id'">
+								AND q.member_id LIKE '%' || #{vo.searchKeyword} || '%'
+							</if>
+							<if test="vo.searchCondition == 'qna_category_name'">
+								AND c.qna_category_name LIKE '%' || #{vo.searchKeyword} || '%'
+							</if>
+						AND q.reg_date BETWEEN TO_DATE(#{vo.dateBegin}, 'YY/MM/DD') 
+										 AND TO_DATE(#{vo.dateEnd}, 'YY/MM/DD')+1 
+         		START WITH parent_num = 0 
+      		    CONNECT BY PRIOR member_qna_num = parent_num 
+     		    ORDER SIBLINGS BY member_qna_num DESC) A)
+		WHERE R_NUM BETWEEN #{paging.begin} AND #{paging.end}
+	</select>
+	
+	<!-- 1:1 문의 로그인회원 -->
+	<select id="getMemQList" parameterType="hashmap" resultType="boardVO">
+		SELECT * 
+		FROM 
+    		(SELECT ROWNUM R_NUM, A.*, LEAD(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS NEXT_NO, 
+            LAG(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS PRE_NO 
+     		FROM 
+    		    (SELECT member_qna_num, parent_num, title, contents, image, qna_category_name, 
+				order_num, member_id, email, phone, reg_date 
+				FROM MEMBER_QNA Q, QNA_CATEGORY C 
+				WHERE Q.qna_category_num = C.qna_category_num 
+				AND Q.member_id = #{member_id}
+				OR Q.member_id = 'admin' 
+				AND Q.parent_num IN (SELECT member_qna_num from member_qna where member_id = #{member_id})
+         		START WITH parent_num = 0 
+      		    CONNECT BY PRIOR member_qna_num = parent_num 
+     		    ORDER SIBLINGS BY member_qna_num DESC) A)
+		WHERE R_NUM BETWEEN #{paging.begin} AND #{paging.end}
+	</select>
+	
+	<select id="getSearchMemQList" parameterType="hashmap" resultType="boardVO">
+		SELECT * 
+		FROM 
+    		(SELECT ROWNUM R_NUM, A.*, LEAD(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS NEXT_NO, 
+            LAG(ROWNUM, 1) OVER (ORDER BY ROWNUM) AS PRE_NO 
+     		FROM 
+    		    (SELECT member_qna_num, parent_num, title, contents, image, qna_category_name, 
+				order_num, member_id, email, phone, reg_date 
+				FROM MEMBER_QNA Q, QNA_CATEGORY C 
+				WHERE Q.qna_category_num = C.qna_category_num 
+					<if test="vo.searchCondition == 'title'">
+						AND q.TITLE LIKE '%' || #{vo.searchKeyword} || '%'
+					</if>
+					<if test="vo.searchCondition == 'contents'">
+						AND q.CONTENTS LIKE '%' || #{vo.searchKeyword} || '%'
+					</if>
+					<if test="vo.searchCondition == 'member_id'">
+						AND q.member_id LIKE '%' || #{vo.searchKeyword} || '%'
+					</if>
+					<if test="vo.searchCondition == 'qna_category_name'">
+						AND c.qna_category_name LIKE '%' || #{vo.searchKeyword} || '%'
+					</if>
+					AND q.reg_date BETWEEN TO_DATE(#{vo.dateBegin}, 'YY/MM/DD') 
+										 AND TO_DATE(#{vo.dateEnd}, 'YY/MM/DD')+1 
+				AND Q.member_id = #{member_id} OR Q.member_id = 'admin' 
+				AND Q.parent_num IN (SELECT member_qna_num from member_qna where member_id = #{member_id})
+         		START WITH parent_num = 0 
+      		    CONNECT BY PRIOR member_qna_num = parent_num 
+     		    ORDER SIBLINGS BY member_qna_num DESC) A)
+		WHERE R_NUM BETWEEN #{paging.begin} AND #{paging.end}
+	</select>
+
+<!-- ****************************************** 선택한 글 상세 보기 ****************************************** -->
+
+	<!-- 공지사항 선택한 글 불러오기 -->
+	<select id="getNotice" parameterType="boardVO" resultType="boardVO">
+		SELECT *
+		FROM NOTICE
+		WHERE NOTICE_NUM = #{notice_num}
+	</select>
+	
+	<!-- FAQ 선택한 글 불러오기 -->
+	<select id="getFAQ" parameterType="boardVO" resultType="boardVO">
+		SELECT F.FAQ_NUM , q.qna_category_num, Q.QNA_CATEGORY_NAME , F.TITLE, F.CONTENTS
+		FROM FAQ F, QNA_CATEGORY Q
+		WHERE f.qna_category_num = q.qna_category_num
+		AND f.faq_num = #{faq_num}
+	</select>
+	
+	<!-- 1:1 문의 선택한 글 불러오기 -->
+	<select id="getMemQ" parameterType="boardVO" resultType="boardVO">
+		SELECT q.parent_num, q.member_qna_num, q.title, q.contents, q.image, q.qna_category_num, c.qna_category_name, 
+			q.order_num, q.member_id, q.email, q.phone, q.reg_date 
+		FROM MEMBER_QNA Q, QNA_CATEGORY C 
+		WHERE Q.qna_category_num = C.qna_category_num 
+		and Q.member_qna_num = #{member_qna_num}
+		and Q.member_id = #{member_id}
+	</select>
+	
+<!-- ****************************************** insert ****************************************** -->
+
+	<!-- 관리자 공지사항 -->
+	<insert id="noticeInsert" parameterType="hashmap">
+		INSERT INTO NOTICE VALUES 
+		((SELECT NVL(MAX(NOTICE_NUM),0) + 1 FROM NOTICE), 
+		#{title}, #{contents}, SYSDATE, 0
+		, #{image}
+		)
+	</insert>
+	
+	<!-- 관리자 FAQ -->
+	<insert id="faqInsert" parameterType="boardVO">
+		INSERT INTO FAQ VALUES 
+		((SELECT NVL(MAX(FAQ_NUM),0) + 1 FROM FAQ), 
+		#{qna_category_num}, #{title}, #{contents})
+	</insert>
+
+	<insert id="memqInsert" parameterType="hashmap">
+		INSERT INTO MEMBER_QNA VALUES 
+		((SELECT NVL(MAX(MEMBER_QNA_NUM),0) + 1 FROM MEMBER_QNA), 
+		#{title}, #{contents}, 
+		#{qna_category_num}, #{order_num}, 
+		(SELECT MEMBER_ID FROM MEMBER WHERE MEMBER_ID = #{member_id}), 
+		#{email}, #{phone}, SYSDATE, 0 
+		, #{image}
+		)
+	</insert>
+	
+	<!-- 1:1 문의 답변 등록 -->
+	<insert id="memqAdminInsert" parameterType="hashmap">
+		INSERT INTO MEMBER_QNA values
+		((select nvl(max(member_qna_num),0)+1 from member_qna), 
+		#{title}, #{contents}, 
+		(select qna_category_num from member_qna where member_qna_num = #{member_qna_num}), 
+		(select order_num from member_qna where member_qna_num = #{member_qna_num}),  
+		#{member_id}, #{email}, #{phone}, SYSDATE, 
+		(select member_qna_num from member_qna where member_qna_num = #{member_qna_num}) 
+		, #{image}
+		)
+	</insert>
+
+<!-- ****************************************** update ****************************************** -->
+	
+	<!-- 1:1 문의 update문 -->
+	<update id="memqUpdate" parameterType="hashmap">
+		UPDATE MEMBER_QNA 
+		SET TITLE = #{title}, 
+		CONTENTS = #{contents}, 
+		IMAGE = #{image},
+		ORDER_NUM = #{order_num}, 
+		QNA_CATEGORY_NUM = #{qna_category_num}, 
+		REG_DATE = SYSDATE 
+		WHERE MEMBER_QNA_NUM = #{member_qna_num}
+		AND MEMBER_ID = #{member_id}
+	</update>
+	
+	<!-- 공지사항 update문 -->
+	<update id="noticeUpdate" parameterType="hashmap">
+		UPDATE NOTICE 
+		SET TITLE = #{title}, 
+		CONTENTS = #{contents}, 
+		IMAGE = #{image},
+		REG_DATE = SYSDATE 
+		WHERE NOTICE_NUM = #{notice_num}
+	</update>
+	
+	<!-- FAQ update문 -->
+	<update id="faqUpdate" parameterType="hashmap">
+		UPDATE FAQ 
+		SET TITLE = #{title}, 
+		CONTENTS = #{contents}, 
+		QNA_CATEGORY_NUM = #{qna_category_num} 
+		WHERE FAQ_NUM = #{faq_num}
+	</update>
+	
+	<!-- 1:1문의 답변 update문 -->
+	<update id="memqAdminUpdate" parameterType="hashmap">
+		UPDATE member_qna 
+		SET TITLE = #{title}, 
+		CONTENTS = #{contents}, 
+		IMAGE = #{image}  
+		WHERE member_qna_num = #{member_qna_num}
+	</update>
+
+<!-- ****************************************** 게시판 글 개수 조회 ****************************************** -->
+
+	<!-- 공지사항 -->
+	<select id="getNoticeCount" resultType="int">
+		SELECT COUNT(*) 
+		FROM NOTICE
+	</select>
+	
+	<select id="getSearchNoticeCount" parameterType="boardVO" resultType="int">
+		SELECT COUNT(*) 
+		FROM NOTICE
+		<where>
+			<if test="searchKeyword != ''">
+				<if test="searchCondition == 'title'">
+					AND TITLE LIKE '%' || #{searchKeyword} || '%'
+				</if>
+				<if test="searchCondition == 'contents'">
+					AND CONTENTS LIKE '%' || #{searchKeyword} || '%'
+				</if>
+			</if>
+			AND reg_date BETWEEN TO_DATE(#{dateBegin}, 'YY/MM/DD')
+							 AND TO_DATE(#{dateEnd}, 'YY/MM/DD')+1
+		</where>
+	</select>
+	
+	<!-- FAQ -->
+	<select id="getFAQCount" resultType="int">
+		SELECT COUNT(*) 
+		FROM FAQ
+	</select>
+	
+	<select id="getSearchFAQCount" parameterType="boardVO" resultType="int">
+		select count(*) from
+        (select * from faq f, qna_category q 
+        where f.qna_category_num = q.qna_category_num
+		<if test="searchCondition == 'title'">
+			AND TITLE LIKE '%' || #{searchKeyword} || '%'
+		</if>
+		<if test="searchCondition == 'contents'">
+			AND CONTENTS LIKE '%' || #{searchKeyword} || '%'
+		</if>
+		<if test="searchCondition == 'qna_category_name'">
+			AND qna_category_name LIKE '%' || #{searchKeyword} || '%'
+		</if>
+        )
+	</select>
+	
+	<!-- 회원 1:1 로그인회원  -->
+	<select id="getMemQCount" parameterType="memberVO" resultType="int">
+		SELECT COUNT(*) 
+		FROM MEMBER_QNA
+		WHERE MEMBER_ID = #{member_id}
+		OR MEMBER_ID = 'admin'
+		AND PARENT_NUM IN (SELECT member_qna_num from member_qna where member_id = #{member_id})
+	</select>
+	
+	<select id="getSearchMemQCount" parameterType="hashmap" resultType="int">
+		select count(*) from
+        (select * from member_qna q, qna_category c 
+        where q.qna_category_num = c.qna_category_num
+		<if test="vo.searchCondition == 'title'">
+			AND q.TITLE LIKE '%' || #{vo.searchKeyword} || '%'
+		</if>
+		<if test="vo.searchCondition == 'contents'">
+			AND q.CONTENTS LIKE '%' || #{vo.searchKeyword} || '%'
+		</if>
+		<if test="vo.searchCondition == 'member_id'">
+			AND q.member_id LIKE '%' || #{vo.searchKeyword} || '%'
+		</if>
+		<if test="vo.searchCondition == 'qna_category_name'">
+			AND c.qna_category_name LIKE '%' || #{vo.searchKeyword} || '%'
+		</if>
+		AND q.reg_date BETWEEN TO_DATE(#{vo.dateBegin}, 'YY/MM/DD') 
+						 AND TO_DATE(#{vo.dateEnd}, 'YY/MM/DD')+1 
+        AND Q.member_id = #{member_id} OR Q.member_id = 'admin' 
+		AND Q.parent_num IN (SELECT member_qna_num from member_qna where member_id = #{member_id})
+   		START WITH parent_num = 0 
+	    CONNECT BY PRIOR member_qna_num = parent_num )
+	</select>
+	
+	<!-- 회원 1:1 문의 전체 -->
+	<select id="getMemQCountAll" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER_QNA
+	</select>
+	
+	<select id="getSearchMemQCountAll" parameterType="boardVO" resultType="int">
+		select count(*) from
+        (select * from member_qna q, qna_category c 
+        where q.qna_category_num = c.qna_category_num
+			<if test="searchCondition == 'title'">
+				AND q.TITLE LIKE '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="searchCondition == 'contents'">
+				AND q.CONTENTS LIKE '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="searchCondition == 'member_id'">
+				AND q.member_id LIKE '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="searchCondition == 'qna_category_name'">
+				AND c.qna_category_name LIKE '%' || #{searchKeyword} || '%'
+			</if>
+			AND q.reg_date BETWEEN TO_DATE(#{dateBegin}, 'YY/MM/DD') 
+							 AND TO_DATE(#{dateEnd}, 'YY/MM/DD')+1 
+        )
+	</select>
+	
+<!-- ****************************************** delete ****************************************** -->
+	
+	<!-- 공지사항 delete문 -->
+	<delete id="noticeDelete" parameterType="boardVO">
+		DELETE FROM NOTICE WHERE NOTICE_NUM = ${notice_num}
+	</delete>
+	
+	<!-- FAQ delete문 -->
+	<delete id="faqDelete" parameterType="boardVO">
+		DELETE FROM FAQ WHERE FAQ_NUM = ${faq_num}
+	</delete>
+	
+	<!-- memberQna delete문 -->
+	<delete id="memqDelete" parameterType="boardVO">
+		DELETE FROM MEMBER_QNA 
+		WHERE MEMBER_QNA_NUM = ${member_qna_num}
+		OR PARENT_NUM = ${member_qna_num}
+	</delete>
+	
+<!-- ****************************************** 조회수 ****************************************** -->
+
+	<update id="noticeViewUpdate" parameterType="int"> 
+	UPDATE NOTICE SET VIEWS = VIEWS + 1 WHERE NOTICE_NUM = #{notice_num}
+	</update>
+	
+<!-- ****************************************** 주문내역 ****************************************** -->
+
+	<select id="member_order_list" parameterType="string" resultType="orderVO">
+	SELECT * FROM ORDERS WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	 	
+ 	<!-- joy 상품카테고리 crud -->
+ 	<insert id="proCategoryInsert" parameterType="string">
+ 		INSERT INTO PRODUCT_CATEGORY VALUES ((SELECT NVL(MAX(PRODUCT_CATEGORY_NUM),0) + 1 FROM product_category), #{product_category_name})
+ 	</insert>
+ 	
+ 	<select id="productCategoryList" resultType="productVO">
+        SELECT * 
+		FROM PRODUCT_CATEGORY
+ 	</select>
+ 	
+ 	<update id="proCategoryUpdate" parameterType="productVO">
+ 		UPDATE PRODUCT_CATEGORY 
+		SET PRODUCT_CATEGORY_NAME = #{product_category_name} 
+		WHERE PRODUCT_CATEGORY_NUM = #{product_category_num} 
+ 	</update>
+	
+	<delete id="proCategoryDelete" parameterType="int">
+		DELETE FROM PRODUCT_CATEGORY WHERE product_category_num = ${product_category_num}
+	</delete>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

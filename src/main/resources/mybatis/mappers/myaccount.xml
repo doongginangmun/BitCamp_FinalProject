@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.myaccount">
+
+	<resultMap id="productResult" type="productVO">
+		<result property="product_id" column="product_id" />
+		<result property="product_name" column="product_name" />
+		<result property="product_detail" column="product_detail" />
+		<result property="sales_unit" column="sales_unit" />
+		<result property="product_size" column="product_size" />
+		<result property="packing_type" column="packing_type" />
+		<result property="product_image" column="product_image" />
+		<result property="supplier" column="supplier" />
+		<result property="product_detail_image"
+			column="product-detail_image" />
+
+		<result property="product_category_num"
+			column="product_category_num" />
+		<result property="product_category_name"
+			column="product_category_name" />
+
+		<result property="option_name" column="option_name" />
+		<result property="option_price" column="option_price" />
+		<result property="option_quantity" column="option_quantity" />
+
+		<result property="item_num" column="item_num" />
+		<result property="price" column="price" />
+		<result property="stock" column="stock" />
+		<result property="sales" column="sales" />
+		<result property="discount" column="discount" />
+		<result property="reg_date" column="reg_date" />
+		<result property="unit_price" column="unit_price" />
+	</resultMap>
+
+	<resultMap id="shippingResult" type="myAccountShippingVO">
+		<result property="member_id" column="member_id" />
+		<result property="zipNo" column="zipNo" />
+		<result property="load_address" column="load_address" />
+		<result property="jibun_address" column="jibun_address" />
+		<result property="rest_address" column="rest_address" />
+	</resultMap>
+
+
+	<select id="selectMyDetailInfo" resultType="memberVO"
+		parameterType="String">
+	 <![CDATA[
+			select * from member
+			where member_id=#{member_id}
+    	]]>
+	</select>
+
+	<!-- 마이리스트 조회 -->
+	<select id="selectFavList" resultMap="productResult"
+		parameterType="String">
+	 <![CDATA[
+			select * from product p , item i, mylist m 
+			where p.product_id=i.product_id and p.product_id=m.product_id and m.member_id=#{member_id}
+			order by m.mylist_date desc
+			
+    	]]>
+	</select>
+
+	<select id="selectFavitem" resultType="String"
+		parameterType="java.util.HashMap">
+	 <![CDATA[
+			select p.product_id from product p , item i, mylist m 
+			where p.product_id=i.product_id and p.product_id=m.product_id 
+			and m.member_id=#{member_id} and m.product_id=#{product_id}
+    	]]>
+	</select>
+
+	<!-- 마이리스트 삭제 -->
+	<delete id="deleteFavList" parameterType="String">
+		delete from mylist
+		where member_id=#{member_id} and product_id=#{product_id}
+	</delete>
+
+	<!-- 마이리스트 추가 -->
+	<insert id="addFavList" parameterType="java.util.HashMap">
+		insert into
+		mylist(member_id, product_id) values(#{member_id},#{product_id})
+	</insert>
+
+	<!-- 회원수정 -->
+	<update id="modifyMemberInfo" parameterType="java.util.HashMap">
+		update member
+		<set>
+			password = #{password},
+			member_name=#{member_name},
+			email=#{email},
+			phone=#{phone}
+		</set>
+		where
+		member_id=#{member_id}
+	</update>
+	
+	<!-- 회원 삭제 -->
+	<delete id="deleteAccount" parameterType="String">
+		delete from member
+		where member_id = #{member_id}
+	</delete>
+
+	<!-- 배송지 추가 -->
+	<insert id="addAddress" parameterType="java.util.HashMap">
+		insert into shipping
+		(member_id, zipNo, load_address, jibun_address, rest_address)
+		values
+		(#{member_id},#{zipNo},#{load_address},#{jibun_address},#{rest_address})
+	</insert>
+
+	<!-- 배송지 확인 -->
+	<select id="listshippList" resultMap="shippingResult"
+		parameterType="String">
+	 <![CDATA[
+			select * from shipping
+			where member_id=#{member_id}
+    	]]>
+	</select>
+
+	<!-- 배송지 수정 -->
+	<update id="modifyAddressInfo" parameterType="java.util.HashMap">
+		UPDATE MEMBER
+		<set>
+			zipNo=#{zipNo},
+			load_address=#{load_address},
+			jibun_address=#{jibun_address},
+			rest_address=#{rest_address}
+		</set>
+		WHERE
+		member_id = #{member_id}
+	</update>
+
+
+	<!-- 각각 배송지 삭제 -->
+	<delete id="deleteShipping" parameterType="java.util.HashMap">
+		<![CDATA[
+		delete from shipping
+		where zipNo = #{zipNo}
+		]]>
+	</delete>
+	
+	
+	<!-- 기본 배송지 수정  -->
+	<update id = "defaultShippingPoint" parameterType="String">
+		merge into member m
+		using shipping s
+		on ( m.member_id =  #{member_id} and m.member_id = s.member_id)
+		    when matched then
+		        update set m.zipno = s.zipno,
+		                m.load_address = s.load_address,
+		                m.jibun_address = s.jibun_address,
+		                m.rest_address = s.rest_address
+	</update>
+
+</mapper>

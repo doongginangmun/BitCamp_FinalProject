@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="mappers.cart">
+
+<resultMap id="productResult" type="productVO">
+	<result property="product_id" column="product_id" />  
+	<result property="product_name" column="product_name" />
+	<result property="sales_unit" column="sales_unit" />
+	<result property="product_size" column="product_size" />
+	<result property="packing_type" column="packing_type" />
+	<result property="product_image" column="product_image" />
+	<result property="supplier" column="supplier" />
+	<result property="product_detail_image" column="product-detail_image"/>
+	<result property="discount" column="discount" />
+	<result property="stock" column="stock" />
+	<result property="quantity" column="quantity" />
+	<result property="cart_id" column="cart_id" />
+</resultMap>		
+
+<resultMap id="cartResult" type="cartVO">
+	<result property="member_id" column="member_id" />
+	<result property="product_name" column="product_name" />
+	<result property="quantity" column="quantity" />
+	<result property="cart_id" column="cart_id" />
+</resultMap>
+<!-- 로그인한id와 동일한 카트리스트출력 -->
+<select id="selectCartList" resultMap="cartResult" parameterType="cartVO">
+<![CDATA[
+	select * from cart
+	where member_id = #{member_id}
+]]>
+</select>
+<!-- 내카트안에 모든 제품 삭제 -->
+<delete id="deleteAllProduct" parameterType="cartVO">
+<![CDATA[
+	delete from cart
+	where member_id = #{member_id}
+]]>
+</delete>
+<!-- 내카트안에 제품 삭제 -->
+<delete id="deleteProductInCart" parameterType="cartVO">
+<![CDATA[
+	delete from cart
+	where member_id =#{member_id}
+	and product_name = #{product_name}
+	and cart_id = #{cart_id}
+]]>
+</delete>
+<!-- 내카트안에 제품수량 증가 -->
+<update id="plusQuantity" parameterType="cartVO">
+<![CDATA[
+	update cart 
+	set quantity = quantity + 1
+	where product_name = #{product_name}
+	and member_id = #{member_id}
+	and cart_id = #{cart_id}
+]]>
+</update>
+<!-- 내카트안에 제품수량 감소 -->
+<update id="minusQuantity" parameterType="cartVO">
+<![CDATA[
+	update cart
+	set quantity = case when quantity - 1 < 1 then 1 else quantity - 1 end
+	where product_name = #{product_name}
+	and member_id = #{member_id}
+	and cart_id = #{cart_id}
+]]>
+</update>
+<!--내카트에 담긴 제품정보  -->		
+<select id="selectProductList" resultMap="productResult" parameterType="java.util.Map">
+							
+select x.*, nvl(o.option_price, price) as option_price
+from (select p.*, i.price, i.discount, i.stock, c.cart_id, c.quantity, c.option_name
+		from product p, item i, cart c 
+		where c.member_id = ANY
+							<foreach item="item" collection="list" open="(" separator="," close=")">
+							#{item.member_id}
+							</foreach>
+		and p.product_name = c.product_name
+		and p.product_id = i.product_id) x
+left outer join product_option o on x.option_name = o.option_name						
+								
+</select>
+<!-- 카트에 같은제품이있는지 체크 -->
+<select id="selectCountInCart" resultType="String" parameterType="cartVO">
+   <![CDATA[
+		    select decode(count(*), 0, 'false', 'true') from cart
+			where option_name=#{option_name}
+			  and member_id=#{member_id} 
+    	]]>
+</select>
+<!-- 옵션이 없을경우 카트에 같은제품이있는지 체크 -->
+<select id="selectCountInCarts" resultType="String" parameterType="cartVO">
+   <![CDATA[
+		    select decode(count(*), 0, 'false', 'true') from cart
+			where product_name=#{product_name}
+			  and member_id=#{member_id} 
+    	]]>
+</select>
+<!--카트에 담기  -->
+<insert id="insertProductInCart" parameterType="cartVO">
+	<![CDATA[
+		INSERT INTO cart(member_id, quantity, cart_id, option_name, product_name)
+		VALUES( #{member_id}, #{quantity}, #{cart_id}, #{option_name}, #{product_name})
+	]]>
+</insert>
+<!-- cart_id +1 -->
+<select id="selectMaxCartId" resultType="int">
+    <![CDATA[
+		select nvl(max(cart_id), 0) + 1 from cart
+   	]]>
+</select>
+<!-- 장바구니에 담긴 갯수 count -->
+<select id="cartChkCount" parameterType="cartVO" resultType="String">
+	<![CDATA[
+		select count(*) from cart
+		where member_id = #{member_id}
+	]]>
+</select>
+</mapper>
+

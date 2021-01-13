@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mappers.review">
+
+	<resultMap id="reviewResult" type="reviewVO">
+		<result property="review_num" column="review_num" />  
+		<result property="product_id" column="product_id" />
+		<result property="member_id" column="member_id" />
+		<result property="title" column="title" />
+		<result property="contents" column="contents" />
+		<result property="image1" column="image1" />
+		<result property="views" column="views" />
+		<result property="rated" column="rated" />
+		<result property="reg_date" column="reg_date"/>
+		<result property="rowNum" column="R_NUM"/>
+		<result property="image2" column="image2" />
+		<result property="image3" column="image3" />
+	</resultMap>	
+	
+	<!-- Review 글 개수 -->
+	<select id="totalCount" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM review
+		WHERE product_id = #{product_id}	
+	</select>
+	<!-- Review 전체글 가져오기 -->
+	<select id="selectReviewList" parameterType="java.util.HashMap" resultMap="reviewResult">
+		<![CDATA[
+			SELECT *
+        	FROM ( SELECT ROWNUM R_NUM, P.*
+        			FROM (SELECT ROWNUM listNum, R.*  
+                                      FROM REVIEW R 
+                                      WHERE product_id= #{product_id}
+        			          ORDER BY review_num desc 
+                                     ) P 
+	            )
+  			WHERE R_NUM BETWEEN #{begin} and #{end}
+		]]>
+	</select>
+	<!-- Review 글 번호 가져오기  -->
+	<select id="selectReviewNo" resultType="int">
+		<![CDATA[
+			SELECT nvl(max(REVIEW_NUM),0) from REVIEW
+		]]>
+	</select>
+	<!-- REVIEW 글 등록 -->
+	<insert id="insertReview" parameterType="java.util.HashMap" >
+		<![CDATA[
+			INSERT INTO REVIEW VALUES (
+				#{review_num}, #{product_id}, #{member_id}, #{title},
+				#{contents}, #{image1}, #{views}, #{rated}, sysdate ,
+				#{image2}, #{image3} 
+			)
+		]]>
+	</insert>
+	<!-- Review 글 가져오기 -->
+	<select id="selectReview" parameterType="int" resultType="reviewVO">
+		<![CDATA[
+			SELECT * FROM REVIEW
+			WHERE REVIEW_NUM = #{REVIEW_NUM}
+		]]>
+	</select>
+	<!--  Review 업데이트 -->
+	<update id="updateReview" parameterType="java.util.HashMap">
+		
+		UPDATE REVIEW
+		SET 
+		TITLE = #{title}, CONTENTS= #{contents}, 
+		 reg_date= sysdate, rated=#{rated}
+		<choose>
+			<when test="image1 != null">
+				, image1 = #{image1}
+			</when>
+		</choose>
+		<choose>
+			<when test="image2 != null">
+				, image2 = #{image2}
+			</when>
+		</choose>
+		<choose>
+			<when test="image3 != null">
+				, image3 = #{image3}
+			</when>
+		</choose>
+		WHERE REVIEW_NUM = #{review_num}
+		
+	</update>
+	<!-- Reveiw 삭세 -->
+	<delete id="deleteReview" parameterType="int">
+		DELETE FROM REVIEW
+		WHERE review_num = #{review_num}
+	</delete>
+</mapper>

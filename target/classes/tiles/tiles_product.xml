@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<!-- 쇼핑몰 기본 레이아웃 설정 -->
+	<definition name="baseLayout"	
+		template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="title" value="쩝쩝박사 :: 너도 할 수 있어, 쩝쩝박사" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+	
+	<!-- 상품 카테고리  -->
+	<definition name="/product/productList" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/product/productList.jsp" />
+	</definition>
+	<!-- 상품 상세 -->
+	<definition name="/product/productDetail" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/product/productDetail.jsp" />
+	</definition>
+	<!-- 상품문의 글쓰기 폼 -->
+	<definition name="/product/insertQnaForm" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/product/insertQnaForm.jsp" />
+	</definition>
+	<!-- 상품문의 글수정 폼 -->
+	<definition name="/product/updateQnaForm" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/product/updateQnaForm.jsp" />
+	</definition>
+	
+	
+	<!-- REVIEW 글쓰기 폼 -->
+	<definition name="/product/insertReviewForm" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/product/insertReviewForm.jsp" />
+	</definition>
+	<!-- REVIEW 글수정 폼 -->
+	<definition name="/product/updateReviewForm" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/product/updateReviewForm.jsp" />
+	</definition>
+</tiles-definitions>

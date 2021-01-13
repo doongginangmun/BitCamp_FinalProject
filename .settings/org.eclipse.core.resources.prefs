@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+encoding//src/main/java/com/project/shop/cart/dao/CartDAO.java=UTF-8
+encoding//src/main/java/com/project/shop/cart/dao/CartDAOImpl.java=UTF-8
+encoding//src/main/java/com/project/shop/view/myaccount/MyAccountController.java=UTF-8
+encoding//src/main/webapp/WEB-INF/views/member/signupForm.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/product/productDetail.jsp=UTF-8
+encoding//src/main/webapp/resources/_ajax/modal_address.jsp=UTF-8
+encoding/<project>=UTF-8
